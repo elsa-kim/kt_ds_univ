@@ -7,17 +7,13 @@ public class Student {
 	int cpp;
 	int csharp;
 	
-	int sum;
-	double average;
-	double courseCredit;
 	
 	/**
-	 * 멤버변수를 모두 더해 int 타입으로 변환
+	 * 점수를 모두 더해 반환
 	 * @return 멤버변수의 합 
 	 */
 	public int getSumAllScores() {
-		sum = java+python+cpp+csharp;
-		return sum;
+		return java+python+cpp+csharp;
 	}
 	
 	/**
@@ -25,9 +21,8 @@ public class Student {
 	 * @return
 	 */
 	public double getAverage() {
-		average = 0.00;
-		average = sum / 4;
-		return average;
+		int average = (int) (getSumAllScores() / 4.0 * 100);
+		return average / 100;
 	}
 	
 	/**
@@ -35,30 +30,29 @@ public class Student {
 	 * @return
 	 */
 	public double getCourseCredit() {
-		courseCredit = 0.00;
-		courseCredit = (average-55)/10;
-		return courseCredit;
+		int courseCredit = (int) ((getAverage() - 55) / 10.0 * 100);
+		return courseCredit/100;
 	}
 	
 	public String getABCDF() {
-		String grade = "";
+		double courseCredit = getCourseCredit(); // 학점
+		
 		if (courseCredit>=4.1) {
-			grade = "A+";
+			// String 변수 만들어 반환하는 것보다 바로 반환하는 것이 깔끔
+			return "A+";
 		}else if (courseCredit>=3.6) {
-			grade = "A";
+			return "A";
 		}else if (courseCredit>=3.1) {
-			grade = "B+";
+			return "B+";
 		}else if (courseCredit>=2.6) {
-			grade = "B";
+			return "B";
 		}else if (courseCredit>=1.6) {
-			grade = "C";
+			return "C";
 		}else if (courseCredit>=0.6) {
-			grade = "D";
+			return "D";
 		}else {
-			grade = "F";
+			return "F";
 		}
-		System.out.println("학점은 : "+grade);
-		return grade;
 	}
 
 }
