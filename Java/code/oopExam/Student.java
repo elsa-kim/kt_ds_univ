@@ -13,7 +13,7 @@ public class Student {
 	 * @return 멤버변수의 합 
 	 */
 	public int getSumAllScores() {
-		return java+python+cpp+csharp;
+		return java + python + cpp + csharp;
 	}
 	
 	/**
@@ -22,7 +22,7 @@ public class Student {
 	 */
 	public double getAverage() {
 		int average = (int) (getSumAllScores() / 4.0 * 100);
-		return average / 100;
+		return average / 100.0;
 	}
 	
 	/**
@@ -31,7 +31,7 @@ public class Student {
 	 */
 	public double getCourseCredit() {
 		int courseCredit = (int) ((getAverage() - 55) / 10.0 * 100);
-		return courseCredit/100;
+		return courseCredit/100.0;
 	}
 	
 	public String getABCDF() {
@@ -50,9 +50,11 @@ public class Student {
 			return "C";
 		}else if (courseCredit>=0.6) {
 			return "D";
-		}else {
-			return "F";
 		}
+//		else {
+//			return "F";
+//		}
+		return "F";
 	}
 
 }
