@@ -1,0 +1,48 @@
+package oop_exam;
+
+/**
+ * 숫자와 관련된 유틸리티
+ */
+public class NumberUtil {
+
+	/**
+	 * 문자를 숫자로 변경한다
+	 * @param str 숫자형태릐 문자열
+	 * @return 문자를 숫자로 변경한 결과 (숫자형태의 문자가 아니라면, NumberFormatException 에러 발생)
+	 */
+	public static int convertToInt(String str) {
+		
+		//숫자를 문자로 바꾸는 방법
+		int number = Integer.parseInt(str);
+		return number;
+	}
+	/**
+	 * 문자를 숫자로 변경한다
+	 * @param str 숫자형태릐 문자열
+	 * @param defaultValue str이 숫자형태의 문자가 아닐 때, 반환됭 값
+	 * @return 문자를 숫자로 변경한 결과
+	 */
+	public static int convertToInt(String str, int defaultValue) {
+		int number = 0;
+		try {
+			number = Integer.parseInt(str);
+		}
+		catch(NumberFormatException nfe) {
+			return defaultValue;
+		}
+		return number;
+	}
+	
+	public static void main(String[] args) {
+		String str = "10000";
+		int number = NumberUtil.convertToInt(str);
+		System.out.println(number);
+		
+		str = "이름";
+		// java.lang.NumberFormatException: For input string: "이름"
+//		number = NumberUtil.convertToInt(str);
+		number = NumberUtil.convertToInt(str,-1);
+		System.out.println(number);
+		
+	}
+}
