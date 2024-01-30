@@ -1,32 +1,32 @@
 package vending_machine;
 
 public class DrinkMachine {
-	Product product1;
-	Product product2;
-	Product product3;
-	Product product4;
+	
+	DrinkProduct[] drinkArray;
 	
 	
 	public DrinkMachine() {
-		this.product1 = new Product();
-		this.product1.name = "박카스";
-		this.product1.price = 900;
-		this.product1.quantity = 15;
+		drinkArray = new DrinkProduct[4];
 		
-		this.product2 = new Product();
-		this.product2.name = "몬스터";
-		this.product2.price = 1500;
-		this.product2.quantity = 25;
+		this.drinkArray[0] = new DrinkProduct();
+		this.drinkArray[0].name = "박카스";
+		this.drinkArray[0].price = 900;
+		this.drinkArray[0].quantity = 15;
 		
-		this.product3 = new Product();
-		this.product3.name = "핫식스";
-		this.product3.price = 1300;
-		this.product3.quantity = 10;
+		this.drinkArray[1] = new DrinkProduct();
+		this.drinkArray[1].name = "몬스터";
+		this.drinkArray[1].price = 1500;
+		this.drinkArray[1].quantity = 25;
 		
-		this.product4 = new Product();
-		this.product4.name = "밀키스";
-		this.product4.price = 1400;
-		this.product4.quantity = 5;
+		this.drinkArray[2] = new DrinkProduct();
+		this.drinkArray[2].name = "핫식스";
+		this.drinkArray[2].price = 1300;
+		this.drinkArray[2].quantity = 10;
+		
+		this.drinkArray[3] = new DrinkProduct();
+		this.drinkArray[3].name = "밀키스";
+		this.drinkArray[3].price = 1400;
+		this.drinkArray[3].quantity = 5;
 		
 	}
 	
@@ -36,110 +36,54 @@ public class DrinkMachine {
 	 * @param quantity 주문하려는 수량
 	 * @return 주문한 내용
 	 */
-	public Product order(String name, int quantity) {
-		Product orderProduct = new Product();
-		// String 비교는 == 으로 할 수 없습니다.
-		// 단, hard-coding된 String은 == 으로 비교할 수 있지만 추천하지 않습니다.
-		// String은 "문자열".equals("비교할 문자열")과 같이 equals 메소드를 통해서 해야 합니다.
-		if (name == this.product1.name) {
-			if (this.product1.quantity<=0) {
-				System.out.println("상품이 품절되었습니다.");
-				return null;
-			}else if (quantity>this.product1.quantity) {
-				System.out.println("상품 수량이 부족하여, "+this.product1.quantity+"개만 주문 되었습니다.");
-				orderProduct.name = this.product1.name;
-				orderProduct.price = this.product1.price;
-				orderProduct.quantity = this.product1.quantity;
-				this.product1.quantity =0;
-				return orderProduct;
-			}
-			this.product1.quantity -= quantity;
-			orderProduct.name = this.product1.name;
-			orderProduct.price = this.product1.price;
-			orderProduct.quantity = quantity;
-			return orderProduct;
-		}
-		else if (name == this.product2.name) {
+	public DrinkProduct order(String name, int quantity) {
+		DrinkProduct orderProduct = new DrinkProduct();
+		for (DrinkProduct product : this.drinkArray) {
 			
-			if (this.product2.quantity<=0) {
-				System.out.println("상품이 품절되었습니다.");
-				return null;
-			}else if (quantity>this.product2.quantity) {
-				System.out.println("상품 수량이 부족하여, "+this.product2.quantity+"개만 주문 되었습니다.");
-				orderProduct.name = this.product2.name;
-				orderProduct.price = this.product2.price;
-				orderProduct.quantity = this.product2.quantity;
-				this.product2.quantity =0;
+			if (product!=null && product.name.equals(name)) {
+				
+				if (product.quantity <= 0) { 
+					System.out.println("상품이 품절되었습니다.");
+					return null;
+				}
+				else if (quantity > product.quantity) {
+					System.out.println("상품 수량이 부족하여, "+product.quantity+"개만 주문 되었습니다.");
+					orderProduct.name = product.name;
+					orderProduct.price = product.price;
+					orderProduct.quantity = product.quantity;
+					product.quantity =0;
+					return orderProduct;
+				}
+				
+				System.out.println("상품 "+name+" : "+quantity+"개가 주문 되었습니다.");
+				product.quantity -= quantity;
+				orderProduct.name = product.name;
+				orderProduct.price = product.price;
+				orderProduct.quantity = quantity;
 				return orderProduct;
 			}
-			this.product2.quantity -= quantity;
-			orderProduct.name = this.product2.name;
-			orderProduct.price = this.product2.price;
-			orderProduct.quantity = quantity;
-			return orderProduct;
 		}
-		else if (name == this.product3.name) {
-			if (this.product3.quantity<=0) {
-				System.out.println("상품이 품절되었습니다.");
-				return null;
-			}else if (quantity>this.product3.quantity) {
-				System.out.println("상품 수량이 부족하여, "+this.product3.quantity+"개만 주문 되었습니다.");
-				orderProduct.name = this.product3.name;
-				orderProduct.price = this.product3.price;
-				orderProduct.quantity = this.product3.quantity;
-				this.product3.quantity =0;
-				return orderProduct;
-			}
-			this.product3.quantity -= quantity;
-			orderProduct.name = this.product3.name;
-			orderProduct.price = this.product3.price;
-			orderProduct.quantity = quantity;
-			return orderProduct;
-		} 
-		else if (name == this.product4.name) {
-			if (this.product4.quantity<=0) {
-				System.out.println("상품이 품절되었습니다.");
-				return null;
-			}else if (quantity>this.product4.quantity) {
-				System.out.println("상품 수량이 부족하여, "+this.product4.quantity+"개만 주문 되었습니다.");
-				orderProduct.name = this.product4.name;
-				orderProduct.price = this.product4.price;
-				orderProduct.quantity = this.product4.quantity;
-				this.product4.quantity =0;
-				return orderProduct;
-			}
-			this.product4.quantity -= quantity;
-			orderProduct.name = this.product4.name;
-			orderProduct.price = this.product4.price;
-			orderProduct.quantity = quantity;
-			return orderProduct;
-		} 
-		else {
 			System.out.println("존재하지 않는 상품입니다.");
 			return null;
-		}
-		
 	}
 	
 	public void add(String name, int quantity) {
-		if (name==this.product1.name) {
-			this.product1.quantity+=quantity;
-		}else if (name==this.product2.name) {
-				this.product2.quantity+=quantity;
-		}else if (name==this.product3.name) {
-			this.product3.quantity+=quantity;
-		}else if (name==this.product4.name){
-			this.product4.quantity+=quantity;
-		}else {
-			System.out.println("존재하지 않는 상품입니다.");
+		for (DrinkProduct product : this.drinkArray) {
+			if (product!=null && product.name.equals(name)) {
+				product.quantity += quantity;	
+		
+			}
 		}
 	}
 	
 	public void printStock() {
-		System.out.println(this.product1.name+"의 재고는 "+this.product1.quantity+"개입니다.");
-		System.out.println(this.product2.name+"의 재고는 "+this.product2.quantity+"개입니다.");
-		System.out.println(this.product3.name+"의 재고는 "+this.product3.quantity+"개입니다.");
-		System.out.println(this.product4.name+"의 재고는 "+this.product4.quantity+"개입니다.");
+		for (DrinkProduct product : this.drinkArray) {
+			if (product!=null) {
+				
+				System.out.println(product.name+"의 재고는 "+product.quantity+"개입니다.");
+			}
+		}
+		
 	}
 
 }
