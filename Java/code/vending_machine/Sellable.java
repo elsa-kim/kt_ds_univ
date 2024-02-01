@@ -28,7 +28,8 @@ public interface Sellable<I> {
 	public void setPressButtonHandler(PressButtonHandler<I> handler);
 	
 	public void setPrintHandler(PrintHandler<I> handler);
-	
+		
+	public void addProduct(String productName, int price, int quantity);
 	/**
 	 * 돈을 넣는다
 	 * @param customer 돈을 넣은 고객
