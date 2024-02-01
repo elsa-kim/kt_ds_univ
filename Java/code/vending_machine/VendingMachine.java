@@ -2,6 +2,8 @@ package vending_machine;
 
 import java.util.List;
 
+import vending_machine.util.FileUtil;
+
 /**
  * 상속받은 클래스가 추상메소드 존자하는 추상클래스라면<br/>
  * 추상 메소드를 이 클래스에서 구현 시키거나<br/>
@@ -70,7 +72,13 @@ public class VendingMachine<I> implements Sellable<I> {
 	public void setPrintHandler(PrintHandler<I> handler) {
 		this.printhandler = handler;
 	}
-
+	
+	@Override
+	public void addProduct(String productName, int price, int quantity) {
+		String description = String.join(",", productName, price+"",quantity+"");
+		FileUtil.writeFile("C:\\Java Exam", "goods.csv", description, true);
+	}
+	
 	@Override
 	public void insertMoney(Customer customer, String productName) {
 		for (I product : this.productArray) {
