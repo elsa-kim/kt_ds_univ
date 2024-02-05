@@ -10,7 +10,8 @@ public class Mart {
 
 	public static List<Product> initiateProduct(){
 		
-		List<Product> productList = FileUtil.readCSVFile("C:\\Java Exam", "goods.csv");
+		// List<Product> productList = FileUtil.readCSVFile("C:\\Java Exam", "goods.csv");
+		List<Product> productList = NIOFileUtil.readCSVFile("goods.csv");
 		
 		return productList;
 	}
