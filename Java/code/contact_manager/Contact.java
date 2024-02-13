@@ -11,7 +11,6 @@ public class Contact {
 	private String relationship;
 	private boolean isBlock;
 	private String memo;
-	private boolean delete;
 	private boolean isImportant;
 	
 	public String getName() {
@@ -38,9 +37,7 @@ public class Contact {
 		return this.memo;
 	}
 	
-	public boolean getDelete() {
-		return this.delete;
-	}
+	
 	
 	public boolean getIsImportant() {
 		return this.isImportant;
@@ -70,9 +67,6 @@ public class Contact {
 		this.memo = memo;
 	}
 	
-	public void setDelete(boolean delete) {
-		this.delete = delete;
-	}
 	
 	public void setIsImportant(boolean isImportant) {
 		this.isImportant = isImportant;
