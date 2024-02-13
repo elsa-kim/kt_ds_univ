@@ -23,22 +23,6 @@ public class ContactManager {
 	
 	Scanner scanner = new Scanner(System.in);
 	
-	public void test() {
-		String inputVal;
-		System.out.println("추가를 원하는 연락처의 생일을 입력해주세요(YYYYMMDD)(선택)");
-		inputVal = scanner.nextLine();
-		System.out.println(inputVal);
-		inputVal = inputVal.replaceAll("[^0-9]", "");
-		System.out.println(inputVal);
-		System.out.println(inputVal.substring(0, 4));
-		System.out.println(inputVal.substring(4, 6));
-		System.out.println(inputVal.substring(6));
-		System.out.println(Integer.parseInt(inputVal.substring(0,4)));
-		System.out.println(Integer.parseInt(inputVal.substring(4, 6)));
-		System.out.println(Integer.parseInt(inputVal.substring(6)));
-		System.out.println(LocalDate.of(Integer.parseInt(inputVal.substring(0,4)), Integer.parseInt(inputVal.substring(4,6)), Integer.parseInt(inputVal.substring(6))));
-		
-	}
 	
 	private void printPerson(Contact person, int index) {
 		System.out.println("인덱스 : "+ index );
@@ -63,6 +47,10 @@ public class ContactManager {
 	 * 전체 연락처 조회
 	 */
 	public void getList() {
+		if (contactList.size()==0) {
+			System.out.println("연락처가 존재하지 않습니다.");
+			return;
+		}
 		for (int i = 0; i < contactList.size(); i++) {
 			System.out.println(i + "번째 연락처 : "+ contactList.get(i).getName() + " " + contactList.get(i).getPhoneNumber());
 		}
