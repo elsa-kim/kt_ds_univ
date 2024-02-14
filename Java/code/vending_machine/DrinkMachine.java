@@ -1,5 +1,8 @@
 package vending_machine;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 public class DrinkMachine {
 	
 	DrinkProduct[] drinkArray;
@@ -38,55 +41,135 @@ public class DrinkMachine {
 	 */
 	public DrinkProduct order(String name, int quantity) {
 		DrinkProduct orderProduct = new DrinkProduct();
-		for (DrinkProduct product : this.drinkArray) {
-			
-			if (product!=null && product.name.equals(name)) {
-				
-				if (product.quantity <= 0) { 
-					System.out.println("상품이 품절되었습니다.");
-					return null;
-				}
-				else if (quantity > product.quantity) {
-					System.out.println("상품 수량이 부족하여, "+product.quantity+"개만 주문 되었습니다.");
-					orderProduct.name = product.name;
-					orderProduct.price = product.price;
-					orderProduct.quantity = product.quantity;
-					product.quantity =0;
-					return orderProduct;
-				}
-				
-				System.out.println("상품 "+name+" : "+quantity+"개가 주문 되었습니다.");
-				product.quantity -= quantity;
-				orderProduct.name = product.name;
-				orderProduct.price = product.price;
-				orderProduct.quantity = quantity;
-				return orderProduct;
-			}
-		}
-			System.out.println("존재하지 않는 상품입니다.");
+		Optional<DrinkProduct> soldoutDrink = Arrays.stream(this.drinkArray)
+													.filter(drink -> drink != null && drink.name == name)
+													.filter(drink -> drink.quantity < quantity)
+													.findFirst();
+		if (soldoutDrink.isPresent()) {
+			System.out.println("상품이 품절되었습니다.");
 			return null;
+		}
+		
+		return Arrays.stream(this.drinkArray)
+					  .filter(drink -> drink != null && drink.name == name)
+					  .filter(drink -> drink.quantity >= quantity)
+					  .map(drink -> {
+						    drink.quantity -= quantity;
+							orderProduct.name = drink.name;
+							orderProduct.price = drink.price;
+							orderProduct.quantity = quantity;
+							return orderProduct;
+						  
+						  
+					  })
+					  .findFirst()
+					  .orElse(null);
+		
 	}
 	
 	public void add(String name, int quantity) {
-		for (DrinkProduct product : this.drinkArray) {
-			if (product!=null && product.name.equals(name)) {
-				product.quantity += quantity;	
-		
-			}
-		}
+		Arrays.stream(this.drinkArray)
+			  .filter(drink -> drink != null && drink.name == name)
+			  .forEach(p->p.quantity+=quantity);
+			 
 	}
 	
 	public void printStock() {
-		for (DrinkProduct product : this.drinkArray) {
-			if (product!=null) {
-				
-				System.out.println(product.name+"의 재고는 "+product.quantity+"개입니다.");
-			}
-		}
+		Arrays.stream(this.drinkArray)
+			  .filter(p->p!=null)
+			  .forEach(p->System.out.println(p.name+"의 재고는 "+p.quantity+"개입니다."));
 		
 	}
 
 }
+
+// public class DrinkMachine {
+	
+// 	DrinkProduct[] drinkArray;
+	
+	
+// 	public DrinkMachine() {
+// 		drinkArray = new DrinkProduct[4];
+		
+// 		this.drinkArray[0] = new DrinkProduct();
+// 		this.drinkArray[0].name = "박카스";
+// 		this.drinkArray[0].price = 900;
+// 		this.drinkArray[0].quantity = 15;
+		
+// 		this.drinkArray[1] = new DrinkProduct();
+// 		this.drinkArray[1].name = "몬스터";
+// 		this.drinkArray[1].price = 1500;
+// 		this.drinkArray[1].quantity = 25;
+		
+// 		this.drinkArray[2] = new DrinkProduct();
+// 		this.drinkArray[2].name = "핫식스";
+// 		this.drinkArray[2].price = 1300;
+// 		this.drinkArray[2].quantity = 10;
+		
+// 		this.drinkArray[3] = new DrinkProduct();
+// 		this.drinkArray[3].name = "밀키스";
+// 		this.drinkArray[3].price = 1400;
+// 		this.drinkArray[3].quantity = 5;
+		
+// 	}
+	
+// 	/**
+// 	 * 주문하기
+// 	 * @param name 주문하려는 음료 품목
+// 	 * @param quantity 주문하려는 수량
+// 	 * @return 주문한 내용
+// 	 */
+// 	public DrinkProduct order(String name, int quantity) {
+// 		DrinkProduct orderProduct = new DrinkProduct();
+// 		for (DrinkProduct product : this.drinkArray) {
+			
+// 			if (product!=null && product.name.equals(name)) {
+				
+// 				if (product.quantity <= 0) { 
+// 					System.out.println("상품이 품절되었습니다.");
+// 					return null;
+// 				}
+// 				else if (quantity > product.quantity) {
+// 					System.out.println("상품 수량이 부족하여, "+product.quantity+"개만 주문 되었습니다.");
+// 					orderProduct.name = product.name;
+// 					orderProduct.price = product.price;
+// 					orderProduct.quantity = product.quantity;
+// 					product.quantity =0;
+// 					return orderProduct;
+// 				}
+				
+// 				System.out.println("상품 "+name+" : "+quantity+"개가 주문 되었습니다.");
+// 				product.quantity -= quantity;
+// 				orderProduct.name = product.name;
+// 				orderProduct.price = product.price;
+// 				orderProduct.quantity = quantity;
+// 				return orderProduct;
+// 			}
+// 		}
+// 			System.out.println("존재하지 않는 상품입니다.");
+// 			return null;
+// 	}
+	
+// 	public void add(String name, int quantity) {
+// 		for (DrinkProduct product : this.drinkArray) {
+// 			if (product!=null && product.name.equals(name)) {
+// 				product.quantity += quantity;	
+		
+// 			}
+// 		}
+// 	}
+	
+// 	public void printStock() {
+// 		for (DrinkProduct product : this.drinkArray) {
+// 			if (product!=null) {
+				
+// 				System.out.println(product.name+"의 재고는 "+product.quantity+"개입니다.");
+// 			}
+// 		}
+		
+// 	}
+
+// }
 
 // 강사님 코드
 //public class DrinkVendingMachine {
