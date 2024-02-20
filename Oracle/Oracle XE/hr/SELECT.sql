@@ -263,3 +263,242 @@ SELECT *
     OR EMAIL LIKE 'D%')
 ;
 
+SELECT EMPLOYEE_ID
+     , FIRST_NAME
+     , LAST_NAME
+     , EMAIL
+     , PHONE_NUMBER
+     , HIRE_DATE
+     , JOB_ID
+     , SALARY
+     , COMMISSION_PCT
+     , MANAGER_ID
+     , DEPARTMENT_ID 
+  FROM EMPLOYEES
+;
+
+-- 사원 정보 테이블에서 이름과 성, 연봉, 이메일을 조회한다.
+SELECT FIRST_NAME
+     , LAST_NAME
+     , SALARY
+     , EMAIL
+  FROM EMPLOYEES
+;
+
+-- 지역정보 테이블에서 도시명이 "Seattle"인 지역의 주소와 우편번호를 조회
+SELECT STREET_ADDRESS
+     , POSTAL_CODE
+  FROM LOCATIONS
+ WHERE CITY = 'Seattle'
+;
+
+-- 모든 사원들의 연봉 총 합, 최대 연봉, 최소 연봉, 평균 연봉, 사원의 수를 조회
+SELECT SUM(SALARY)
+     , MAX(SALARY)
+     , MIN(SALARY)
+     , AVG(SALARY)
+     , COUNT(EMPLOYEE_ID) -- COUNT 함수의 파라미터는 PK 쓰는 것이 원칙
+     , MAX(HIRE_DATE) -- 가장 최근의 입사일자
+     , MIN(HIRE_DATE) -- 가장 과거의 입사일자
+  FROM EMPLOYEES
+;
+
+-- 2007년에 입사한 사원의 수와 평균 연봉을 조회
+-- 문자 -> 날짜 변경
+SELECT '2007-01-01' -- 날짜 형태의 문자
+     , TO_DATE('2007-01-01', 'YYYY-MM-DD')
+  FROM DUAL -- DUAL (Dummy 테이블 : 날짜, 시퀀셜할 번호등을 조회)
+;
+
+SELECT COUNT(EMPLOYEE_ID)
+     , AVG(SALARY)
+  FROM EMPLOYEES
+ WHERE HIRE_DATE >= TO_DATE('2007-01-01', 'YYYY-MM-DD')
+   AND HIRE_DATE <= TO_DATE('2007-12-31', 'YYYY-MM-DD') 
+;
+
+-- GROUP BY 이용
+-- 부서별 근무중인 부서번호, 연봉의 합계, 최대 연봉, 가장 늦게 입사한 날짜, 가장 일찍 입사한 날짜, 사원의 수 조회
+SELECT DEPARTMENT_ID -- GROUP BY 없을 경우 에러(ORA-00937: 단일 그룹의 그룹 함수가 아닙니다)
+     , SUM(SALARY)
+     , MAX(SALARY)
+     , MAX(HIRE_DATE)
+     , MIN(HIRE_DATE)
+     , COUNT(EMPLOYEE_ID)
+  FROM EMPLOYEES
+ GROUP BY DEPARTMENT_ID -- ORA-00937: 단일 그룹의 그룹 함수가 아닙니다 <-- 이 에러가 나지 않는다
+;
+
+-- 사원 정보에서 "직무 아이디" 별 "사원의 수"와 "직무 아이디"를 조회
+SELECT JOB_ID
+     , COUNT(EMPLOYEE_ID)
+  FROM EMPLOYEES
+ GROUP BY JOB_ID
+;
+
+-- 사원 정보에서 "성"이 같은 사원들의 "수"와 "성"을 조회
+SELECT LAST_NAME
+     , COUNT(EMPLOYEE_ID)
+  FROM EMPLOYEES
+ GROUP BY LAST_NAME
+;
+
+-- 2004년에 입사한 사원들 중 부서번호 별 사원들의 수와 평균연봉, 연봉의 총 합, 부서번호를 조회
+SELECT COUNT(EMPLOYEE_ID)
+     , AVG(SALARY)
+     , SUM(SALARY) 
+     , DEPARTMENT_ID
+  FROM EMPLOYEES
+ WHERE HIRE_DATE >= TO_DATE('2004-01-01', 'YYYY-MM-DD')
+   AND HIRE_DATE <= TO_DATE('2004-12-31', 'YYYY-MM-DD')
+ GROUP BY DEPARTMENT_ID
+;
+
+-- 사원 정보에서 동일한 "성"이 두명 이상이 있는 사원들만 조회한다
+-- "성" 별 사원의 수, "성"
+SELECT COUNT(EMPLOYEE_ID)
+     , LAST_NAME
+  FROM EMPLOYEES
+ GROUP BY LAST_NAME
+HAVING COUNT(EMPLOYEE_ID) > 1 
+;
+
+-- 사원 정보에서 직무 아이디별 사원의 수와 직무 아이디를 조회하는데 사원의 수가 3명 이상인 정보만 조회
+SELECT COUNT(EMPLOYEE_ID)
+     , JOB_ID
+  FROM EMPLOYEES
+ GROUP BY JOB_ID
+HAVING COUNT(EMPLOYEE_ID) >= 3
+;
+
+
+-- Sub Query
+
+-- 1. 부서명 "IT" 부서에서 근무중인 사원들의 정보를 조회(IT 부서의 부서번호를 모르는 상황)
+--  1) IT부서의 부서번호를 찾는다. ==> 60
+SELECT DEPARTMENT_ID
+  FROM DEPARTMENTS
+ WHERE DEPARTMENT_NAME = 'IT'
+;
+--  2) 60번 부서에서 일을 하는 사원들의 정보를 조회한다
+SELECT *
+  FROM EMPLOYEES
+ WHERE DEPARTMENT_ID = 60
+;
+
+-- 2. 지역번호가 1700인 부서에서 근무중인 사원들의 모든 정보를 조회(지역번호가 1700인 부서의 번호를 모르는 상황)
+--  1) 지역번호가 1700인 번의 부서 번호 조회
+SELECT DEPARTMENT_ID -- 10, 30, 90, 100, 110, 120, 130, 140, 150, 160, 170, ...
+  FROM DEPARTMENTS
+ WHERE LOCATION_ID = 1700
+;
+
+--  2) 위 부서에서 근무중인 사원들의 모든 정보를 조회
+SELECT *
+  FROM  EMPLOYEES
+ WHERE EMPLOYEES.DEPARTMENT_ID IN (10, 30, 90, 100, 110)
+;
+
+-- SUB QUERY 이용
+-- * SUB QUERY를 먼저 작성(우리가 알기 위해 필요한 코드를 먼저 작성)
+-- 1. 부서명 "IT" 부서에서 근무중인 사원들의 정보를 조회(IT 부서의 부서번호를 모르는 상황)
+SELECT *
+  FROM EMPLOYEES
+ WHERE DEPARTMENT_ID = (SELECT DEPARTMENT_ID
+					      FROM DEPARTMENTS
+ 						 WHERE DEPARTMENT_NAME = 'IT')
+;
+
+-- 2. 지역번호가 1700인 부서에서 근무중인 사원들의 모든 정보를 조회(지역번호가 1700인 부서의 번호를 모르는 상황)
+SELECT *
+  FROM EMPLOYEES
+ WHERE DEPARTMENT_ID IN (SELECT DEPARTMENT_ID
+						   FROM DEPARTMENTS
+						  WHERE LOCATION_ID = 1700)
+;
+
+-- 145번 사원이 부서장인 부서에서 근무중인 사원들의 모든 정보를 조회하는데
+--	  결과에서 145번 사원은 제외시킨다
+SELECT *
+  FROM EMPLOYEES
+ WHERE DEPARTMENT_ID = (SELECT DEPARTMENT_ID
+						  FROM DEPARTMENTS
+						 WHERE MANAGER_ID = 145)
+   AND EMPLOYEE_ID != 145
+;
+
+-- 직무명이 "Marketing Manager"인 사원의 모든 정보를 조회한다
+-- 직무명: 직무정보(JOBS)
+-- 사원의 모든 정보: 사원 정보(EMPLOYEES)
+-- 알아야 할 정보
+--    직무명 : "Marketing Manager"인 직무의 아이디(MK_MAN)
+-- 알고싶은 정보
+--    사원의 직무아이디가 'MK_MAN' 인 사원의 모든 정보
+SELECT *
+  FROM EMPLOYEES
+ WHERE JOB_ID = (SELECT JOB_ID
+				   FROM JOBS
+				  WHERE JOB_TITLE = 'Marketing Manager')
+;
+
+-- 도시명이 "Seattle" 인 지역에 존재하는 부서의 모든 정보를 조회한다
+SELECT *
+  FROM DEPARTMENTS
+ WHERE LOCATION_ID = (SELECT LOCATION_ID
+					    FROM LOCATIONS
+					   WHERE CITY = 'Seattle')
+;
+
+-- 대륙명이 "Americas"인 국가 정보를 모두 조회한다
+-- 테이블간의 연결은 항상 pk -- fk로 한다
+SELECT *
+  FROM COUNTRIES
+ WHERE REGION_ID = (SELECT REGION_ID
+					  FROM REGIONS
+					 WHERE REGION_NAME = 'Americas')
+;			
+
+-- 도시명이 "Seattle"인 지역에서 근무중인 모든 사원들의 정보를 조회한다
+-- 알아야 할 정보 1 : 도시명이 "Seattle"인 지역의 지역번호(1700)
+SELECT LOCATION_ID
+  FROM LOCATIONS
+ WHERE CITY = 'Seattle'
+;
+-- 알아야 할 정보 2 : 지역번호가 1700번인 부서번호(10, 30, 90, 100, 110, 120, 130, 140, 150, 160, 170, ...)
+SELECT DEPARTMENT_ID
+  FROM DEPARTMENTS
+ WHERE LOCATION_ID =1700
+;
+-- 알고 싶은 정보 : 10, 30, 90, 100, 110, 120, 130, 140, 150, 160, 170, ...이 부서에서 근무중인 사원의 정보
+SELECT *
+  FROM EMPLOYEES
+ WHERE DEPARTMENT_ID IN (10, 30, 90, 100, 110, 120, 130, 140, 150, 160, 170, ...)
+;
+
+SELECT *
+  FROM EMPLOYEES
+ WHERE DEPARTMENT_ID IN (SELECT DEPARTMENT_ID
+						  FROM DEPARTMENTS
+						 WHERE LOCATION_ID = (SELECT LOCATION_ID
+											    FROM LOCATIONS
+											   WHERE CITY = 'Seattle'))											   
+;
+
+-- 대륙명이 'Europe'인 국가에서 근무하는 모든 사원들의 정보를 조회
+SELECT *
+  FROM EMPLOYEES
+ WHERE DEPARTMENT_ID IN (SELECT DEPARTMENT_ID
+					 	   FROM DEPARTMENTS
+						  WHERE LOCATION_ID IN (SELECT LOCATION_ID
+											      FROM LOCATIONS
+											     WHERE COUNTRY_ID IN (SELECT COUNTRY_ID
+																        FROM COUNTRIES
+																       WHERE REGION_ID = (SELECT REGION_ID
+																	   				        FROM REGIONS
+																					       WHERE REGION_NAME = 'Europe'))))
+;
+
+
+
+
+
