@@ -1,0 +1,23 @@
+-- 모든 사원들의 연봉을 10만으로 변경
+UPDATE EMPLOYEES 
+   SET SALARY = 100000
+;
+
+-- 103번 사원의 연봉을 10만으로 변경 --> 원래는 9000
+UPDATE EMPLOYEES 
+   SET SALARY = 100000
+ WHERE EMPLOYEE_ID = 103
+;
+
+-- 103번 사원의 연봉을 10만으로 변경하고 인센티브를 0.9로 변경 --> 원래연봉 9000, 원래 인센티브 NULL
+UPDATE EMPLOYEES 
+   SET SALARY = 100000
+     , COMMISSION_PCT = 0.9
+ WHERE EMPLOYEE_ID = 103
+;
+
+ROLLBACK;
+
+SELECT *
+  FROM EMPLOYEES
+;
