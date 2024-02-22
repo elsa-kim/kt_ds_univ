@@ -477,8 +477,7 @@ SELECT DEPARTMENT_NAME
 										      ORDER BY DEPT_COUNT DESC)
 									  WHERE ROWNUM = 1)) JH2
     ON D.DEPARTMENT_ID = JH2.DEPARTMENT_ID			 
-;	
-	--?
+;
 
 -- 52. 'Seattle' 에서 근무중인 사원의 이름, 성, 연봉, 부서명 을 조회한다.
 SELECT E.FIRST_NAME 
