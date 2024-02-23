@@ -1606,16 +1606,16 @@ SELECT EMPLOYEE_ID
 
 -- 140. 사원의 연봉을 TRUNC(소수점 버림) 함수를 사용해 100 단위는 버린채 다음과 같이 조회한다. 예> 3700 -> 3000, 12700 -> 12000
 SELECT FIRST_NAME 
-     , TRUNC(SALARY / 1000) *1000 
+     , TRUNC(SALARY, -3)
   FROM EMPLOYEES
 ;  
 
 -- 141. 100단위를 버린 사원의 연봉 별 사원의 수를 조회한다.
-SELECT TRUNC(SALARY/1000)*1000
+SELECT TRUNC(SALARY, -3)
      , COUNT(EMPLOYEE_ID)
   FROM EMPLOYEES
- GROUP BY TRUNC(SALARY/1000)*1000
- ORDER BY TRUNC(SALARY/1000)*1000
+ GROUP BY TRUNC(SALARY, -3)
+ ORDER BY TRUNC(SALARY, -3)
 ;
 
 -- 142. 현재 시간으로부터 20년 전 보다 일찍 입사한 사원의 모든 정보를 조회한다.
@@ -2054,7 +2054,7 @@ SELECT EMPLOYEE_ID
 ;
 
 -- 190. 매년 10%의 상여금을 받는다고 했을 때, 사원별로 현재까지 받은 상여금의 합과 사원번호, 연봉을 조회한다.
-SELECT TRUNC((SYSDATE - HIRE_DATE) / 365)*SALARY*0.1 
+SELECT TRUNC(TRUNC(MONTHS_BETWEEN(SYSDATE, HIRE_DATE), 0) / 12, 0) * SALARY * 0.1 
      , EMPLOYEE_ID 
      , SALARY 
   FROM EMPLOYEES
