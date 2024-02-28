@@ -1,0 +1,224 @@
+-- 'MV-20240228-000003'
+SELECT 'MV-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_MOVIES_PK.NEXTVAL, 6, '0') -- MV-20240228-000012
+  FROM DUAL 
+;  
+
+SELECT LPAD(SEQ_MOVIES_PK.NEXTVAL, 6, '0')
+  FROM DUAL
+;
+
+SELECT TO_CHAR(SYSDATE, '-YYYYMMDD-') -- -20240228-
+     , TO_CHAR(SYSDATE, 'YYYYMMDD') -- 실무에선 이렇게 사용함 -- 20240228
+  FROM DUAL 
+;  
+
+
+SELECT SEQ_MOVIES_PK.NEXTVAL -- 다음번호
+  FROM DUAL 
+;  
+
+SELECT SEQ_MOVIES_PK.CURRVAL -- 현재까지 발급된 가장 큰 번호
+  FROM DUAL 
+;  
+
+-- MOVIES
+INSERT INTO MOVIES 
+ (MOVIE_ID
+, TITLE
+, MINIMUM_AGE
+, OPEN_YEAR
+, RUNNING_TIME
+, GENRE
+, ATMOSPHERE
+, LOCATION
+, SUMMARY
+, POSTER)
+VALUES 
+ ('MV-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_MOVIES_PK.NEXTVAL, 6, '0') -- MV-20240228-000012  /*MOVIE_ID*/
+, '런닝맨' /*TITLE*/
+, 15 /*MINIMUM_AGE*/
+, '2013' /*OPEN_YEAR*/
+, 120 /*RUNNING_TIME*/
+, '예능' /*GENRE*/
+, '웃긴' /*ATMOSPHERE*/
+, '한국' /*LOCATION*/
+, '런닝맨' /*SUMMARY*/
+, '런닝맨.png' /*POSTER*/)
+;
+
+SELECT *
+  FROM MOVIES
+;
+
+-- DIRECTORS
+INSERT INTO DIRECTORS 
+ (DIRECTOR_ID
+, NAME
+, PROFILE)
+VALUES
+ ('DR-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_DIRECTORS_PK.NEXTVAL, 6, '0') /*DIRECTOR_ID*/
+, '최형인'/*NAME*/
+, '최형인.png'/*PROFILE*/)
+;
+
+SELECT *
+  FROM DIRECTORS
+;
+
+-- PRODUCING
+INSERT INTO PRODUCING
+ (PRODUCING_ID
+, DIRECTOR_ID
+, MOVIE_ID)
+VALUES 
+ ('PR-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_PRODUCING_PK.NEXTVAL, 6, '0') /*PRODUCING_ID*/
+, 'DR-20240228-000004'/*DIRECTOR_ID*/
+, 'MV-20240228-000003'/*MOVIE_ID*/)
+;
+
+SELECT *
+  FROM PRODUCING
+;
+
+-- ACTORS
+INSERT INTO ACTORS
+ (ACTOR_ID
+, PROFILE
+, NAME)
+VALUES 
+ ('AC-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_ACTORS_PK.NEXTVAL, 6, '0') /*ACTOR_ID*/
+, '김부선.png' /*PROFILE*/
+, '김부선' /*NAME*/)
+;
+
+SELECT *
+  FROM ACTORS
+;
+
+-- CASTS
+INSERT INTO CASTS
+ (CAST_ID
+, ACTOR_ID
+, MOVIE_ID
+, CHARACTER_NAME
+, MAIN_ACTOR_YN)
+VALUES 
+ ('CT-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_CASTS_PK.NEXTVAL, 6, '0') /*CAST_ID*/
+, 'AC-20240228-000019' /*ACTOR_ID*/
+, 'MV-20240228-000002' /*MOVIE_ID*/
+, '김 여인' /*CHARACTER_NAME*/
+, 'N' /*MAIN_ACTOR_YN*/)
+;
+
+SELECT *
+  FROM CASTS
+;
+
+-- USERS
+INSERT INTO USERS
+ (USER_ID
+, NAME
+, BACKGROUND
+, PROFILE)
+VALUES 
+ ('MEMBER_5' /*USER_ID*/
+, '정믕' /*NAME*/
+, '정믕_배경사진.png' /*BACKGROUND*/
+, '정믕_프로필.png' /*PROFILE*/)
+;
+
+SELECT *
+  FROM USERS
+;  
+
+-- RATINGS
+INSERT INTO RATINGS
+ (RATING_ID
+, USER_ID
+, RATING
+, DESCRIPTION
+, MOVIE_ID)
+VALUES 
+ ('RT-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_RATINGS_PK.NEXTVAL, 6, '0') /*RATING_ID*/
+, 'MEMBER_2' /*USER_ID*/
+, 3.5 /*RATING*/
+, '나문희 짱짱' /*DESCRIPTION*/
+, 'MV-20240228-000002' /*MOVIE_ID*/)
+;
+
+SELECT *
+  FROM RATINGS
+;  
+
+-- FOLLOWERS
+INSERT INTO FOLLOWERS
+ (FOLLOW_ID
+, USER_ID
+, FOLLOW_USER_ID)
+VALUES 
+ ('FL-' || TO_CHAR(SYSDATE, 'YYYYMMDD') || '-' || LPAD(SEQ_FOLLOWERS_PK.NEXTVAL, 6, '0') /*FOLLOW_ID*/
+, 'MEMBER_5' /*USER_ID*/
+, 'MEMBER_4' /*FOLLOW_USER_ID*/)
+;
+
+SELECT *
+  FROM FOLLOWERS 
+;
+
+COMMIT;
+
+ROLLBACK;
+
+-- 모든 영화의 이름과 감독의 이름을 조회한다
+SELECT M.TITLE 
+     , D.NAME 
+  FROM MOVIES M
+ INNER JOIN PRODUCING P
+    ON M.MOVIE_ID = P.MOVIE_ID 
+ INNER JOIN DIRECTORS D
+    ON D.DIRECTOR_ID = P.DIRECTOR_ID 
+;    
+
+DELETE 
+  FROM DIRECTORS
+ WHERE NAME = '장항준'
+; 
+
+
+-- INNER JOIN, LEFT OUTER JOIN (JOIN)
+-- 여러 개의 테이블을 하나의 테이블로 병합하는 과정
+
+-- JAVA JOIN의 표현은 HAS A 관계로 표현한다
+-- MoviesVO has a List<DirectorsVO> -- 하나의 영화는 여러명의 감독이 제작한다.
+-- has a 표현 방법
+-- MoviesVO
+ -- 멤버변수
+  -- List<DirectorsVO>
+
+-- MOVIES 1 ----- 1 DIRECTORS
+--           n|n
+--        PRODUCING
+
+-- MoviesVO has a List<Directors> --> 영화를 제작한 감독의 정보를 포함하고 있다.
+-- Directors has a List<MoviesVO> --> 감독이 제작한 영화의 정보를 포함하고 있다.
+--							영화를 제작한 감독의 목록을 조회해 달라 --> 결과 표현
+--							감독이 제작한 영화의 목록을 조회해 달라 --> 결과 표현
+-- 영화에 출연한 배우의 목록을 조회해 달라.
+--  MOVIES 1-------n PRODUCING n-------1 DIRECTORS
+--     |1
+--    n|
+--   CASTS n-------1 ACTORS
+-- 다대다 해소하기 위한 테이블은 VO로 안만들지만, 일반 컬럼 존재하는 경우 VO로 만들어야 함(둘 간의 정보 보충해줌)
+-- MoviesVO has a List<Actors>
+-- Actors has a List<MoviesVO>
+-- Actors has a CastsVO
+
+SELECT M.*
+     , D.NAME
+  FROM MOVIES M
+ INNER JOIN PRODUCING P
+    ON M.MOVIE_ID = P.MOVIE_ID 
+ INNER JOIN DIRECTORS D
+    ON D.DIRECTOR_ID = P.DIRECTOR_ID 
+;    
+  
