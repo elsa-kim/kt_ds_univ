@@ -68,10 +68,12 @@ public class DBConnector extends ObjectReflector {
 	}
 	
 	public void close() {
-		try {
-			this.conn.commit();
-		} catch (SQLException e) {
-			e.printStackTrace();
+		if (this.conn != null) {
+			try {
+				this.conn.commit();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		this.closeWithoutConnection();
