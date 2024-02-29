@@ -64,10 +64,12 @@ public class DBSupporter extends DBConnector {
 	}
 
 	public <T> T selectOne(String query, Object[] params, Class<T> type) {
-		long count = getCount(query, params);
-		if (count > 1) {
-			super.rollback();
-			throw new RuntimeException("1개 이상의 행이 리턴되었습니다.");
+		if(!query.contains(".NEXTVAL")) {
+			long count = getCount(query, params);
+			if (count > 1) {
+				super.rollback();
+				throw new RuntimeException("1개 이상의 행이 리턴되었습니다.");
+			}
 		}
 		
 		if (super.conn == null) {
