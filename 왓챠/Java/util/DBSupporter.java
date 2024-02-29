@@ -64,7 +64,7 @@ public class DBSupporter extends DBConnector {
 	}
 
 	public <T> T selectOne(String query, Object[] params, Class<T> type) {
-		if(!query.contains(".NEXTVAL")) {
+		if ( !query.contains(".NEXTVAL") ) {
 			long count = getCount(query, params);
 			if (count > 1) {
 				super.rollback();
@@ -81,16 +81,27 @@ public class DBSupporter extends DBConnector {
 			super.setParams(params, super.pstmt);
 			super.rs = super.pstmt.executeQuery();
 
-			T t = null;
-			if (super.rs.next()) {
-				
-				t = createNewInstance(type);
-				if (t != null) {
-					invokeSetter(t, super.rs);
+			if (type == String.class) {
+				if (super.rs.next()) {
+					return (T) super.rs.getString(1);
 				}
 			}
+			else {
+				T t = null;
+				if (super.rs.next()) {
+					
+					
+					t = createNewInstance(type);
+					if (t != null) {
+						invokeSetter(t, super.rs);
+					}
+				}
 
-			return t;
+				return t;
+			}
+			
+			return null;
+			
 		} catch (SQLException | RuntimeException e) {
 			rollback();
 			throw new RuntimeException(e.getMessage(), e);
