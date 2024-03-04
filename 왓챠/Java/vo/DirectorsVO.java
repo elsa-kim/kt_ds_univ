@@ -38,4 +38,13 @@ public class DirectorsVO {
 		this.movies = movies;
 	}
 	
+	@Override
+	public String toString() {
+		StringBuffer result = new StringBuffer();
+		result.append("감독ID: " + this.directorId);
+		result.append("감독명: " + this.name);
+		result.append("감독 프로필 url: " + this.profile);
+		
+		return result.toString();
+	}
 }
