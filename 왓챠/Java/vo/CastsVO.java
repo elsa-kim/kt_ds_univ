@@ -12,6 +12,12 @@ public class CastsVO {
 	private MoviesVO movies;
 	private ActorsVO actors;
 	
+	public ActorsVO getActors() {
+		return actors;
+	}
+	public void setActors(ActorsVO actors) {
+		this.actors = actors;
+	}
 	public MoviesVO getMovies() {
 		return movies;
 	}
