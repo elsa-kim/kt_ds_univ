@@ -27,4 +27,16 @@ public class CastsDao {
 		return dbSupporter.insert(query.toString(), new Object[] {castsVO.getActorId(), castsVO.getMovieId(), castsVO.getCharacterName(), castsVO.getMainActorYn()});
 	}
 
+	public int deleteCastsByMovieId(DBSupporter dbSupporter, String movieId) {
+
+		StringBuffer query = new StringBuffer();
+		
+		query.append(" DELETE ");
+		query.append("   FROM CASTS ");
+		query.append("  WHERE MOVIE_ID = ? ");
+		
+		return dbSupporter.insert(query.toString(), new Object[] {movieId});
+	
+	}
+
 }
