@@ -27,12 +27,49 @@ public class DirectorsDao {
 		
 	}
 	
-	public List<DirectorsVO> selectAllDirector(DBSupporter dbSupporter){
+	public List<DirectorsVO> selectAllDirectors(DBSupporter dbSupporter){
 		StringBuffer query = new StringBuffer();
 		query.append(" SELECT * ");
 		query.append("   FROM DIRECTORS ");
 		
 		return dbSupporter.selectList(query.toString(), null, DirectorsVO.class);
 		
+	}
+
+	public List<DirectorsVO> selectDirectorsByName(DBSupporter dbSupporter, String name) {
+		StringBuffer query = new StringBuffer();
+		query.append(" SELECT * ");
+		query.append("   FROM DIRECTORS ");
+		query.append("  WHERE NAME LIKE '%' || ? || '%' ");
+		
+		return dbSupporter.selectList(query.toString(), new Object[] {name}, DirectorsVO.class);
+	}
+
+	public DirectorsVO selectDirectorById(DBSupporter dbSupporter, String directorsId) {
+		StringBuffer query = new StringBuffer();
+		query.append(" SELECT * ");
+		query.append("   FROM DIRECTORS ");
+		query.append("  WHERE DIRECTOR_ID = ? ");
+		
+		return dbSupporter.selectOne(query.toString(), new Object[] {directorsId}, DirectorsVO.class);
+	}
+
+	public int updateOneDirector(DBSupporter dbSupporter, DirectorsVO directorsVO) {
+		StringBuffer query = new StringBuffer();
+		query.append(" UPDATE DIRECTORS ");
+		query.append("    SET NAME = ? ");
+		query.append("      , PROFILE = ? ");
+		query.append("  WHERE DIRECTOR_ID = ? ");
+		
+		return dbSupporter.update(query.toString(), new Object[] {directorsVO.getName(), directorsVO.getProfile(), directorsVO.getDirectorId()});
+	}
+
+	public int deleteOneDirectorById(DBSupporter dbSupporter, String directorsId) {
+		StringBuffer query = new StringBuffer();
+		query.append(" DELETE ");
+		query.append("   FROM DIRECTORS ");
+		query.append("  WHERE DIRECTOR_ID = ? ");
+		
+		return dbSupporter.delete(query.toString(), new Object[] {directorsId});
 	}
 }
