@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Attribute 실습</title>
+    <!-- CSS 적용하는 태그 -->
+    <style>
+      .yellow-color {
+        color: rgb(223, 223, 2);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="yellow-color" tabindex="1" title="첫 번째 아이템입니다. 선택이 안되는 요소입니다.">첫 번째 아이템</div>
+    <p class="yellow-color" tabindex="2" title="두 번째 아이템입니다.">두 번째 아이템</p>
+    <h1 class="yellow-color" tabindex="3">세 번째 아이템</h1>
+    <h2 class="yellow-color" tabindex="4">네 번째 아이템</h2>
+    <h3 class="yellow-color" tabindex="5">다섯 번째 아이템</h3>
+    <!-- data-var-name : 오로지 JS 위한 속성 -->
+    <h4 data-var-name="변수값" tabindex="7">여섯 번째 아이템</h4>
+    <h5 tabindex="6">일곱 번째 아이템</h5>
+    <h6 tabindex="8">여덟 번째 아이템</h6>
+    <ol hidden>
+      <li tabindex="9">아홉 번째 아이템</li>
+      <li tabindex="10">열 번째 아이템</li>
+    </ol>
+    <ul class="yellow-color">
+      <li tabindex="12">열 한 번째 아이템</li>
+      <li tabindex="11">열 두 번째 아이템</li>
+    </ul>
+
+    <span tabindex="13">열 세 번째 아이템</span>
+
+    <a href="" tabindex="14">열 네 번째 아이템</a>
+    <a href="" tabindex="15">열 다섯 번째 아이템</a>
+
+    <table hidden>
+      <thead>
+        <tr>
+          <th>열 여섯 번째 아이템</th>
+          <th>열 일곱 번째 아이템</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>열 여덟 번째 아이템</td>
+          <td>열 아홉 번째 아이템</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <video title="비디오 플레이어입니다." src="" controls></video>
+    <audio title="오디오 플레이어입니다." src="" controls></audio>
+  </body>
+</html>
