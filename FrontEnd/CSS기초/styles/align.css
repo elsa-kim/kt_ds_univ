@@ -1,0 +1,29 @@
+#container {
+  text-align: center;
+  height: 500px;
+  background-color: #cccccc;
+}
+
+.div1 {
+  display: inline-block;
+  width: 300px;
+  height: 100px;
+  background-color: #f3f3f3;
+  vertical-align: middle;
+}
+
+.div2 {
+  display: inline-block;
+  width: 250px;
+  height: 130px;
+  background-color: #f3f3f3;
+  vertical-align: middle;
+}
+
+.div3 {
+  display: inline-block;
+  width: 330px;
+  height: 120px;
+  background-color: #f3f3f3;
+  vertical-align: middle;
+}
