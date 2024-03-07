@@ -1,0 +1,17 @@
+/* Block Element */
+/* 줄이고 남은 공간 마진이 차지 */
+div {
+  width: 50%;
+}
+
+/* Inline Element */
+span {
+  width: 1000px;
+  height: 1000px;
+}
+
+/* Inline-Block Element */
+button {
+  width: 200px;
+  height: 200px;
+}
