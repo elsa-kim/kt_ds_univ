@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS 작성방법 실습</title>
+    <!-- 
+        상대경로 : ./의 의미 = 현 위치, ../ = 상위 폴더 => 주로 사용됨
+        절대경로 : 파일이 있는 모든 경로
+     -->
+    <link rel="stylesheet" href="./styles/mystyle.css" />
+    <!-- css 적용 충돌 시 동일한 명시도 가진 것들은 나중에 작성돤 것으로 적용됨(코드 적은 순서에 따라) -->
+    <style>
+      /* 권장하지 않음(느림)
+        만약 한 html 파일에 p 태그 여러개 있을 때
+        여러개의 p 태그 찾아 일일이 스타일 부여하기 때문
+      */
+      p {
+        /* 글자 크기를 100px로 변경(기본 16px) */
+        font-size: 100px;
+      }
+      body {
+        background-color: limegreen;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>This is a heading (overwrite)</h1>
+    <p>This is a paragraph (overwrite)</p>
+  </body>
+</html>
