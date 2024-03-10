@@ -1,0 +1,24 @@
+.empty_div {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  background-color: #000;
+}
+
+/* 
+.float-exam > .empty_div 
+ : .float-exam의 자식 .empty_div에 스타일 주겠다(자식만)
+.float-exam .empty_div
+ : .float-exam 하위에 있는 .empty_div에 스타일 주겠다(자식, 손자, ... 하위면 다 가능)
+ */
+.float-exam .empty_div {
+  float: right;
+  margin: 10px;
+}
+.float-exam .empty_div:nth-child(2) {
+  float: left;
+}
+
+.clear-line {
+  clear: both;
+}
