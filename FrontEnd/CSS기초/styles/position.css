@@ -1,0 +1,84 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  /* position: fixed;가 문서내에 존재할 경우 중첩된 영역은 모두 덮어지기 때문에 
+  margin이나 padding 등으로 띄워줘야 한다.
+  */
+  margin-top: 160px;
+}
+
+div {
+  border: 3px solid #333;
+  margin: 10px;
+}
+body > div {
+  background-color: #f90;
+  padding: 10px;
+  width: 600px;
+}
+.large-div {
+  background-color: #fff;
+  height: 1200px;
+}
+
+.position-absolute {
+  background-color: #f00;
+  /* 문서(html) 내부에서 절대 위치에 엘리먼트를 배치한다 */
+  /* 명확한 위치를 설정하지 않으면, 가장 좌측 상단에 배치된다. */
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* viewport 기준(html 전체의 마지막 아닌, 페이지 열었을때 viewport 기준으로 그 위치에 고정됨.
+   뷰포트에 고정 아니라 뷰포트 기준 해당 위치에 고정되는것)  */
+  /* right: 0;
+  bottom: 0; */
+}
+
+.position-relative {
+  background-color: #0f0;
+  /* 상대적인 위치를 조정한다. */
+  /* relative가 적용된 박스는 현재 위치부터 좌표계의 값이 0으로 초기화 된다. */
+  position: relative;
+  height: 100px;
+}
+
+.move-point {
+  top: 50px;
+  left: 70px;
+}
+
+.move-point-absolute-in-relative {
+  /* top: 0;
+  left: 0; */
+  /* top: 30px;
+  bottom: 0; */
+  right: 0;
+  top: 0;
+}
+.move-point-absolute-in-relative2 {
+  left: 900px;
+}
+
+.position-fixed {
+  background-color: #00f;
+  color: white;
+  /* absolute와 비슷하게 동작한다 */
+  /* 좌표기준은 viewport가 된다. */
+  /* viewport의 좌표계에 그대로 유지된다.(뷰포트에 고정) */
+  position: fixed;
+  top: 0;
+  left: 0;
+  /* width: 100%; */
+  right: 0;
+  height: 150px;
+  margin: 0;
+}
+
+.position-sticky {
+  background-color: #888;
+  position: sticky;
+  top: 180px;
+}
