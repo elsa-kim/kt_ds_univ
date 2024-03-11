@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>고급유머</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Noto+Sans+KR:wght@100..900&family=Poppins:wght@200&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/common.css" />
+    <link rel="stylesheet" href="./styles/mobile.common.css" />
+    <script src="https://kit.fontawesome.com/ac0e78004e.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class="aside-menu">
+      <ul>
+        <li>마이페이지</li>
+        <li>글쓰기</li>
+        <li>로그인</li>
+        <li>로그아웃</li>
+        <li>회원가입</li>
+        <li onclick="document.getElementsByClassName('aside-menu')[0].style.display='none'">닫기</li>
+      </ul>
+    </div>
+    <div class="go-to-top">
+      <p>⭡</p>
+      <p>TOP</p>
+    </div>
+    <div class="container">
+      <div class="header">
+        <div class="header-logo">
+          <div
+            class="inline-block hambuger"
+            onclick="document.getElementsByClassName('aside-menu')[0].style.display='block'"
+          ></div>
+          <div class="inline-block"></div>
+          <div class="inline-block"></div>
+          <div class="inline-block"></div>
+          <!-- 1. -->
+          <!-- <img class="header-logo-list-item" src="./assets/logo.png" alt="고급유머 로고" height="50px" />
+          <img class="header-logo-list-item" src="./assets/my.png" alt="고급유머 마이페이지" height="35px" />
+          <img class="header-logo-list-item" src="./assets/write.png" alt="고급유머 글 작성" height="35px" /> -->
+
+          <!-- 2. 이 방식이 정석 -->
+          <!-- <div class="header-logo-list-item">
+            <img src="./assets/logo.png" alt="고급유머 로고" height="50px" />
+          </div>
+          <div class="header-logo-list-item">
+            <img src="./assets/my.png" alt="고급유머 마이페이지" height="35px" />
+            <img src="./assets/write.png" alt="고급유머 글 작성" height="35px" />
+          </div> -->
+
+          <!-- 3. -->
+          <!-- img src : 이미지 주소 / alt: 장차법 읽어주는 기능, 대체텍스트 / onerror : 대체이미지-->
+          <!-- <ul class="header-logo-list">
+            <li class="header-logo-list-item"><img src="./assets/logo.png" alt="고급유머 로고" height="50px" /></li>
+            <li class="header-logo-list-item"><img src="./assets/write.png" alt="고급유머 글 작성" height="35px" /></li>
+            <li class="header-logo-list-item"><img src="./assets/my.png" alt="고급유머 마이페이지" height="35px" /></li>
+            <div class="clear-line"></div>
+          </ul> -->
+        </div>
+        <div class="header-category">
+          <ul class="header-category-list">
+            <!-- li 사이의 한칸 공백때문에 wirth 50% 해도 다음줄에 떨어져서 나타남 -->
+            <li class="header-category-list-item header-item">잇슈</li>
+            <li class="header-category-list-item">익게</li>
+          </ul>
+        </div>
+      </div>
+      <div class="content">
+        <div class="content-article">
+          <h3 class="content-article-title">
+            <a href="./details.html">한국인의 삼겹살 사랑에 놀란 루마니아 마트 사장님 </a>
+            <span class="content-article-title-reply-count">[23]</span>
+          </h3>
+          <ul class="content-article-author-info-list">
+            <li class="content-article-author">개드립</li>
+            <li class="content-article-number">No.232710</li>
+            <li class="content-article-createDate">08:03</li>
+          </ul>
+        </div>
+        <div class="content-article">
+          <h3 class="content-article-title">
+            <a href="./details.html">채소를 싫어하던 아이가 어른이 되면 </a>
+            <span class="content-article-title-reply-count">[17]</span>
+          </h3>
+          <ul class="content-article-author-info-list">
+            <li class="content-article-author">개드립</li>
+            <li class="content-article-number">No.232709</li>
+            <li class="content-article-createDate">08:02</li>
+            <div class="best-article">BEST</div>
+          </ul>
+        </div>
+        <div class="content-article">
+          <h3 class="content-article-title">
+            <a href="./details.html">강의중 핸드폰을 떨어뜨리자 옆친구가 적은 메모.jpg</a>
+            <span class="content-article-title-reply-count">[11]</span>
+          </h3>
+          <ul class="content-article-author-info-list">
+            <li class="content-article-author">개드립</li>
+            <li class="content-article-number">No.232708</li>
+            <li class="content-article-createDate">08:01</li>
+          </ul>
+        </div>
+        <div class="content-article">
+          <h3 class="content-article-title">
+            <a href="./details.html">인도 슬리퍼 공장.mp4 </a
+            ><span class="content-article-title-reply-count">[18]</span>
+          </h3>
+          <ul class="content-article-author-info-list">
+            <li class="content-article-author">개드립</li>
+            <li class="content-article-number">No.232707</li>
+            <li class="content-article-createDate">08:00</li>
+            <div class="best-article">BEST</div>
+          </ul>
+        </div>
+      </div>
+      <div class="search-area">
+        <form class="search-form">
+          <label for="search-type" class="search-title">검색종류</label>
+          <select id="search-type" class="search-input">
+            <option>전체</option>
+            <option>작성자</option>
+            <option>내용</option>
+            <option>작성자+내용</option>
+            <option>글번호</option>
+          </select>
+          <label for="search-keyword" class="search-title">검색어</label>
+          <input type="text" id="search-keyword" class="search-input" />
+          <button class="search-btn">검색</button>
+        </form>
+      </div>
+      <div class="paginator">
+        <ul class="paginator-list">
+          <li class="paginator-page-naumber paginator-active-page">
+            <a href="./index.html">1</a>
+          </li>
+          <li class="paginator-page-naumber"><a href="./index.html">2</a></li>
+          <li class="paginator-page-naumber"><a href="./index.html">3</a></li>
+          <li class="paginator-page-naumber"><a href="./index.html">4</a></li>
+          <li class="paginator-page-naumber"><a href="./index.html">5</a></li>
+          <li class="paginator-page-naumber">다음</li>
+        </ul>
+      </div>
+      <div class="footer">
+        <div class="footer-button-area">
+          <button class="footer-button-area-login-btn">로그인</button>
+        </div>
+        <div class="footer-copyright">ktds University</div>
+      </div>
+    </div>
+  </body>
+</html>
