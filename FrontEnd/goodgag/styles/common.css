@@ -1,0 +1,466 @@
+/* html의 모든 tag는 box model */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  background-color: rgb(56, 55, 57);
+  background-image: url("../assets/bg_tx.svg");
+  margin: 0;
+  height: 100%;
+  font-family: "Inter", sans-serif;
+}
+/* 
+div {
+  background-color: rgb(244, 243, 243);
+} */
+.aside-menu {
+  background-color: #fffc;
+  position: fixed;
+  width: 60%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 3;
+  display: none;
+}
+.go-to-top {
+  position: fixed;
+  bottom: 12.5rem;
+  right: 15.625rem;
+  text-align: center;
+  background-color: #fff6;
+  padding: 0.63rem;
+  cursor: pointer;
+}
+
+.go-to-top p {
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+}
+
+.container {
+  background-color: white;
+  margin: 0 auto;
+  width: 50%;
+  min-width: 21rem;
+  max-width: 37.5rem;
+  height: 100%;
+}
+
+.header {
+  background-color: rgb(236, 235, 235);
+  width: 50%;
+  min-width: 21rem;
+  max-width: 37.5rem;
+  position: fixed;
+  z-index: 2;
+  top: 0;
+  /* width: 500px;
+  border:0.625re solid red;
+  padding: 30px;
+  margin: 100px; */
+}
+
+/* 1. */
+.header-logo {
+  background-color: #fed50a;
+  border-bottom: 0.0625rem solid rgb(147, 0, 0);
+  position: relative;
+}
+
+.header-logo > div {
+  background-image: url("../assets/common.png");
+}
+
+.header-logo > div:nth-child(1) {
+  width: 5px;
+  height: 30px;
+  background-position: -76px -30px;
+  vertical-align: middle;
+}
+.header-logo > div:nth-child(2) {
+  width: 82px;
+  height: 35px;
+  vertical-align: middle;
+}
+.header-logo > div:nth-child(3) {
+  width: 38px;
+  height: 29px;
+  background-position: 0 -38px;
+  position: absolute;
+  top: 4px;
+  right: 39px;
+  vertical-align: middle;
+}
+.header-logo > div:nth-child(4) {
+  width: 33px;
+  height: 29px;
+  background-position: -41px -38px;
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  vertical-align: middle;
+}
+
+/* .header-logo-list-item:nth-child(3) {
+  position: absolute;
+  right: 3.4rem;
+  top: 0.56rem;
+}
+.header-logo-list-item:last-child {
+  position: absolute;
+  right: 0.625rem;
+  top: 0.56rem;
+} */
+
+/* 2. */
+/* 
+.header-logo {
+  background-color: #fed50a;
+  border-bottom: 0.0625rem solid rgb(147, 0, 0);
+}
+.header-logo-list-item {
+  display: inline-block;
+  width: 49%;
+}
+
+.header-logo-list-item:last-child {
+  text-align: right;
+} */
+
+/* 3. */
+/* 
+.header-logo {
+  background-color: #fed50a;
+  border-bottom: 0.0625rem solid rgb(147, 0, 0);
+}
+.header-logo-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.header-logo-list-item {
+  /* display: inline-block; 
+  vertical-align: middle;
+  float: right;
+  margin-right: 0.3125rem;
+}
+.header-logo-list-item:first-child {
+  float: left;
+  margin-left:0.625re;
+}
+
+*/
+/* .header-logo-list-item:nth-child(3),
+.header-logo-list-item:last-child {
+  border: 0.0625rem solid rgb(192, 125, 1);
+  border-radius: 0.125rem;
+} */
+
+.header-category {
+  border-bottom: 0.0625rem solid gray;
+}
+
+.header-category-list {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.header-category-list-item {
+  display: inline-block;
+  width: 40%;
+  /* height: 40px; */
+  padding: 0.8rem;
+  margin: 0 auto;
+}
+
+.header-category-list-item:hover {
+  font-weight: bold;
+  color: #ff0000;
+  text-decoration: underline;
+}
+.header-category-list-item:active {
+  /* font-size: 300%; */
+  font-size: 3rem;
+}
+
+.header-item {
+  font-weight: bold;
+  border-bottom: 0.1875rem solid red;
+  color: red;
+}
+
+.content {
+  background-color: white;
+  height: calc(100% - 6.125rem - 5.18rem - 3.375rem - 0.165rem);
+  margin-top: 5.06rem;
+}
+
+.content-article:last-child {
+  border: none;
+}
+
+.content-article {
+  background-color: white;
+  border-bottom: 0.0625rem solid rgb(223, 222, 222);
+  padding: 0.75rem 0.625rem;
+  margin: 0;
+  margin-left: 1.25rem;
+  /* margin:0.625re; */
+  position: relative;
+}
+
+/* .content-article:last-child {
+  border-bottom: none;
+} */
+
+.best-article {
+  position: absolute;
+  top: 0.625rem;
+  right: 0.625rem;
+  background-color: #f00;
+  padding: 0.625rem;
+  font-weight: bold;
+  font-style: italic;
+  color: #fff;
+}
+/* h는 기본적으로 margin 가지고 있음 */
+.content-article-title {
+  font-weight: normal;
+  color: rgb(41, 41, 41);
+  margin: 0 0 0.75rem;
+}
+.content-article-title-reply-count {
+  color: rgb(249, 117, 55);
+  font-size: 0.8rem;
+}
+.content-article-author-info-list {
+  margin: 0;
+  padding: 0;
+}
+
+.content-article-author {
+  color: rgb(189, 95, 36);
+  display: inline-block;
+}
+.content-article-author::after {
+  content: "|";
+  padding-left: 0.5rem;
+  color: #dddddd;
+}
+.content-article-number {
+  color: gray;
+  padding: 0 0.5rem;
+  display: inline-block;
+}
+.content-article-createDate {
+  color: gray;
+  display: inline-block;
+}
+.content-article-createDate::before {
+  content: "|";
+  padding-right: 0.5rem;
+  color: #dddddd;
+}
+
+.search-area {
+  padding: 0.625rem;
+  text-align: center;
+}
+
+.search-form {
+  background-color: #f001;
+  padding: 0.625rem;
+}
+
+.search-title {
+  font-weight: bold;
+  vertical-align: middle;
+}
+.search-input {
+  padding: 0.625rem;
+  border-radius: 0.1875rem;
+  border: 0.0625rem solid #ccc;
+  vertical-align: middle;
+}
+.search-input:focus {
+  outline: none;
+}
+
+.search-btn {
+  background-color: rgb(201, 201, 241);
+  padding: 0.5rem;
+  border-radius: 0.1875rem;
+  border: none;
+  color: #ffffff;
+  vertical-align: middle;
+}
+.paginator {
+  background-color: rgb(244, 242, 242);
+  padding: 1.25rem 0;
+  /* Paginator의 자식 엘리먼트(태그)들을 (수평)가운데 정렬한다. */
+  text-align: center;
+}
+
+.paginator-list {
+  margin: 0;
+  padding: 0;
+}
+
+.paginator-page-naumber {
+  color: rgb(167, 167, 167);
+  background-color: rgb(251, 249, 249);
+  padding: 0.5rem 0.625rem 0.4375rem;
+  border: 0.0625rem solid rgb(167, 167, 167);
+  border-radius: 0.1875rem;
+  display: inline-block;
+}
+
+.paginator-active-page {
+  color: red;
+  font-weight: bold;
+  border: 0.1125rem solid red;
+}
+
+.footer {
+  background-color: rgb(41, 41, 42);
+  color: rgb(188, 188, 188);
+  padding: 0.9375rem;
+  text-align: center;
+}
+
+.footer-button-area {
+  margin-bottom: 1.25rem;
+}
+
+.footer-button-area-login-btn {
+  font-size: 1.25rem;
+  background-color: rgb(82, 82, 82);
+  border: none;
+  border-radius: 0.3125rem;
+  padding: 0.5rem 0.9375rem 0.4375rem;
+  color: rgb(188, 188, 188);
+}
+
+.footer-copyright {
+  font-size: 1.25rem;
+}
+
+/* a {
+  color: #333333;
+  text-decoration: none;
+} */
+
+/* 링크 스타일 변경 */
+a:link {
+  color: #333333;
+  text-decoration: none;
+}
+/* 한번이라도 클릭한 적 있는 링크 변경 */
+a:visited {
+  color: #888888;
+}
+/* 링크 클릭할 때의 스타일 변경 */
+a:active {
+  font-weight: bold;
+}
+/* 링크에 마우스 올렸을 때 스타일 변경 */
+a:hover {
+  color: #ff8888;
+}
+
+.clear-line {
+  clear: both;
+}
+.regist-content {
+  margin-top: 5.06rem;
+  padding-top: 1rem;
+}
+.regist-form {
+  border: 1px solid #ccc;
+  margin: 1rem;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+.regist-form > .terms-agreement {
+  width: 100%;
+  height: 20rem;
+  overflow: auto;
+  border: 1px solid #aaa;
+  padding: 1rem;
+  border-radius: 1rem;
+}
+.regist-form input {
+  display: block;
+  margin: 1rem 2rem 1rem 0;
+  padding: 0.5rem;
+  width: 100%;
+  border: 1px solid #aaa;
+}
+.regist-form input:focus {
+  outline: none;
+}
+.regist-form input[type="checkbox"] {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid #aaa;
+  border-radius: 0.5rem;
+  appearance: none;
+}
+
+.regist-form input[type="checkbox"]:checked {
+  background-color: #fed50a;
+  background-image: url("https://static-00.iconduck.com/assets.00/checkmark-icon-512x426-8re0u9li.png");
+  background-size: contain;
+}
+
+.regist-form > button {
+  display: block;
+  margin: 1rem 2rem 1rem 0;
+  padding: 1rem;
+  width: 100%;
+  border: 0;
+  background-color: #fed50a;
+  color: #fff;
+}
+.no-margin {
+  margin: 0;
+}
+.underline {
+  text-decoration: underline;
+}
+.bottom-border {
+  border-bottom: 1px solid #aaa;
+}
+.h-margin-16 {
+  margin: 1rem 0;
+}
+.inline-block {
+  display: inline-block;
+}
+.text-align-left {
+  text-align: left;
+}
+.text-align-right {
+  text-align: right;
+}
+.w-half {
+  width: 49%;
+}
+.hambuger {
+  width: 2.3rem;
+  vertical-align: middle;
+  display: none;
+  color: #d26e23;
+}
