@@ -1,0 +1,59 @@
+/* 뷰 포트(브라우저)의 크기가 21rem(335px)보다 작다면 아래 스타일 적용해라 */
+/* @media (max-width: 21rem) {} */
+
+/* 뷰 포트(브라우저)의 크기가 78rem(약 1250px)보다 작다면 아래 스타일 적용해라 */
+@media (max-width: 78rem) {
+  .go-to-top {
+    display: none;
+  }
+}
+
+@media (max-width: 26.5625rem) {
+  .search-title {
+    display: block;
+  }
+  .search-btn {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  .search-input {
+    width: 100%;
+    display: block;
+  }
+
+  .best-article {
+    top: auto;
+    bottom: 0;
+  }
+  .header-category-list-item {
+    display: block;
+    width: 98%;
+  }
+  .content {
+    margin-top: 8rem;
+  }
+  .regist-content {
+    margin-top: 8rem;
+  }
+  .content-article {
+    margin-left: 0;
+  }
+  .header-logo-list-item:nth-child(3),
+  .header-logo-list-item:nth-child(4) {
+    display: none;
+  }
+  .header-logo {
+    text-align: center;
+  }
+
+  /* .aside-menu {
+    display: block;
+  } */
+  .hambuger {
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    bottom: 0.5rem;
+  }
+}
