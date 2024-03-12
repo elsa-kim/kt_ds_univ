@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flex 정렬 실습</title>
+    <link rel="stylesheet" href="./styles/flex_align.css" />
+  </head>
+  <body>
+    <h2>Flex - Row - Justify-Content (Main Axis)</h2>
+    <h3>Flex - Row - Justify-Content - flex-start</h3>
+    <div class="flex row justify-content-flex-start">
+      <div>First item</div>
+      <div>Second item</div>
+      <div>Third item</div>
+    </div>
+    <h3>Flex - Row - Justify-Content - flex-end</h3>
+    <div class="flex row justify-content-flex-end">
+      <div>First item</div>
+      <div>Second item</div>
+      <div>Third item</div>
+    </div>
+    <h3>Flex - Row - Justify-Content - center</h3>
+    <div class="flex row justify-content-center">
+      <div>First item</div>
+      <div>Second item</div>
+      <div>Third item</div>
+    </div>
+    <h3>Flex - Row - Justify-Content - space-between</h3>
+    <div class="flex row justify-content-space-between">
+      <div>First item</div>
+      <div>Second item</div>
+      <div>Third item</div>
+    </div>
+    <h3>Flex - Row - Justify-Content - space-around</h3>
+    <div class="flex row justify-content-space-around">
+      <div>First item</div>
+      <div>Second item</div>
+      <div>Third item</div>
+    </div>
+    <h3>Flex - Row - Justify-Content - space-evenly</h3>
+    <div class="flex row justify-content-space-evenly">
+      <div>First item</div>
+      <div>Second item</div>
+      <div>Third item</div>
+    </div>
+    <h2>Flex - Row - Align-Items (Cross Axis)</h2>
+    <h3>Flex - Row - Align-Items - Stretch</h3>
+    <div class="h-320 flex row align-items-stretch">
+      <div>First item</div>
+      <div>Second item</div>
+      <div>Third item</div>
+    </div>
+    <h3>Flex - Row - Align-Items - flex-start</h3>
+    <div class="h-320 flex row align-items-flex-start">
+      <div>First item</div>
+      <div>Second item</div>
+      <div>Third item</div>
+    </div>
+    <h3>Flex - Row - Align-Items - flex-end</h3>
+    <div class="h-320 flex row align-items-flex-end">
+      <div>First item</div>
+      <div>Second item</div>
+      <div>Third item</div>
+    </div>
+    <h3>Flex - Row - Align-Items - center</h3>
+    <div class="h-320 flex row align-items-center">
+      <div>First item</div>
+      <div>Second item</div>
+      <div>Third item</div>
+    </div>
+    <h3>Flex - Row - Align-Items - baseline</h3>
+    <div class="h-320 flex row align-items-baseline">
+      <div style="font-size: 1rem">First item</div>
+      <div style="font-size: 2rem">Second item</div>
+      <div style="font-size: 3rem">Third item</div>
+    </div>
+    <h2>Flex - Row - Both</h2>
+    <h3>Flex - Row - Both - center</h3>
+    <div class="h-320 flex justify-content-center row align-items-center">
+      <div>First item</div>
+      <div>Second item</div>
+      <div>Third item</div>
+    </div>
+
+    <h2>Flex - Column - Justify-Content (Main Axis)</h2>
+    <h3>Flex - Column - Justify-Content - flex-start</h3>
+    <div class="h-640 flex column justify-content-flex-start">
+      <div>First item</div>
+      <div>Second item</div>
+      <div>Third item</div>
+    </div>
+    <h3>Flex - Column - Justify-Content - flex-end</h3>
+    <div class="h-640 flex column justify-content-flex-end">
+      <div>First item</div>
+      <div>Second item</div>
+      <div>Third item</div>
+    </div>
+    <h3>Flex - Column - Justify-Content - center</h3>
+    <div class="h-640 flex column justify-content-center">
+      <div>First item</div>
+      <div>Second item</div>
+      <div>Third item</div>
+    </div>
+    <h3>Flex - Column - Justify-Content - space-between</h3>
+    <div class="h-640 flex column justify-content-space-between">
+      <div>First item</div>
+      <div>Second item</div>
+      <div>Third item</div>
+    </div>
+    <h3>Flex - Column - Justify-Content - space-around</h3>
+    <div class="h-640 flex column justify-content-space-around">
+      <div>First item</div>
+      <div>Second item</div>
+      <div>Third item</div>
+    </div>
+    <h3>Flex - Column - Justify-Content - space-evenly</h3>
+    <div class="h-640 flex column justify-content-space-evenly">
+      <div>First item</div>
+      <div>Second item</div>
+      <div>Third item</div>
+    </div>
+    <h2>Flex - Column - Align-Items (Cross Axis)</h2>
+    <h3>Flex - Column - Align-Items - Stretch</h3>
+    <div class="h-640 flex column align-items-stretch">
+      <div>First item</div>
+      <div>Second item</div>
+      <div>Third item</div>
+    </div>
+    <h3>Flex - Column - Align-Items - flex-start</h3>
+    <div class="h-640 flex column align-items-flex-start">
+      <div>First item</div>
+      <div>Second item</div>
+      <div>Third item</div>
+    </div>
+    <h3>Flex - Column - Align-Items - flex-end</h3>
+    <div class="h-640 flex column align-items-flex-end">
+      <div>First item</div>
+      <div>Second item</div>
+      <div>Third item</div>
+    </div>
+    <h3>Flex - Column - Align-Items - center</h3>
+    <div class="h-640 flex column align-items-center">
+      <div>First item</div>
+      <div>Second item</div>
+      <div>Third item</div>
+    </div>
+    <h3>Flex - Column - Align-Items - baseline</h3>
+    <div class="h-640 flex column align-items-baseline">
+      <div style="font-size: 1rem">First item</div>
+      <div style="font-size: 2rem">Second item</div>
+      <div style="font-size: 3rem">Third item</div>
+    </div>
+    <h2>Flex - Column - Both</h2>
+    <h3>Flex - Column - Both - center</h3>
+    <div class="h-640 flex column justify-content-center align-items-center">
+      <div>First item</div>
+      <div>Second item</div>
+      <div>Third item</div>
+    </div>
+  </body>
+</html>
