@@ -1,0 +1,35 @@
+* {
+  box-sizing: border-box;
+}
+
+.grid {
+  display: grid;
+  width: 50rem;
+  height: 50rem;
+  grid-template-columns: 1fr 1fr 2fr;
+  grid-template-rows: 1fr 1fr 2fr;
+  gap: 1rem;
+}
+
+/* -1 사용해 칸 수 늘어나도 제일 끝 칸까지 합칠 수 있음 */
+.grid > div:nth-child(2) {
+  /* grid-column-start: 2;
+  grid-column-end: 4; */
+  grid-column: 2 / -1;
+  /* grid-row-start: 1;
+  grid-row-end: 2; */
+  grid-row: 1 / 2;
+}
+.grid > div:nth-child(4) {
+  grid-column: 2/3;
+  /* span : 합치고 싶은 칸 수 */
+  grid-row: 2 / span 2;
+}
+.grid > div:nth-child(5) {
+  /* grid-column-start: 3;
+  grid-column-end: 4; */
+  grid-column: 3 / 4;
+  /* grid-row-start: 2;
+  grid-row-end: 4; */
+  grid-row: 2 / 4;
+}
