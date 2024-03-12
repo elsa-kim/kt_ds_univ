@@ -1,0 +1,132 @@
+* {
+  box-sizing: border-box;
+}
+
+h3 {
+  margin: 2rem 0 0;
+}
+
+.flex-row {
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.flex-row li {
+  list-style: none;
+}
+
+.container {
+  background-color: #ccc;
+  padding: 1rem;
+  display: flex;
+}
+
+.container div {
+  background-color: #ff9e37;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.reverse-container {
+  /* margin-top: 2rem; */
+  background-color: #ccc;
+  padding: 1rem;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.reverse-container div {
+  background-color: #ff9e37;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.column-container {
+  background-color: #ccc;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.column-container div {
+  background-color: #ff9e37;
+  padding: 1rem;
+  margin: 1rem;
+}
+.column-reverse-container {
+  background-color: #ccc;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.column-reverse-container div {
+  background-color: #ff9e37;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.inline-flex-container {
+  /* margin-top: 2rem; */
+  background-color: #ccc;
+  padding: 1rem;
+  display: inline-flex;
+}
+
+.inline-flex-container div {
+  background-color: #ff9e37;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.container-nowrap {
+  background-color: #ccc;
+  padding: 1rem;
+  display: flex;
+  width: 10rem;
+}
+
+.container-nowrap div {
+  background-color: #ff9e37;
+  padding: 1rem;
+  margin: 1rem;
+}
+.container-wrap {
+  background-color: #ccc;
+  padding: 1rem;
+  display: flex;
+  width: 10rem;
+  flex-wrap: wrap;
+}
+
+.container-wrap div {
+  background-color: #ff9e37;
+  padding: 1rem;
+  margin: 1rem;
+}
+.container-wrap-reverse {
+  background-color: #ccc;
+  padding: 1rem;
+  display: flex;
+  width: 10rem;
+  flex-wrap: wrap-reverse;
+}
+
+.container-wrap-reverse div {
+  background-color: #ff9e37;
+  padding: 1rem;
+  margin: 1rem;
+}
+.inline-container {
+  /* margin-top: 2rem; */
+  background-color: #ccc;
+  padding: 1rem;
+}
+
+.inline-container div {
+  background-color: #ff9e37;
+  padding: 1rem;
+  margin: 1rem;
+  display: inline-block;
+}
