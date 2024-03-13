@@ -1,0 +1,323 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-color: rgb(56, 55, 57);
+  height: 100%;
+}
+
+body > div {
+  width: 650px;
+  margin: 0 auto;
+  background-color: #fff;
+}
+
+.top-header {
+  background-color: #fed50a;
+  position: relative;
+  border-bottom: 1px solid rgb(204, 135, 85);
+}
+
+.my-page {
+  position: absolute;
+  right: 40px;
+  margin: 8px;
+  border: 1px solid rgb(207, 149, 110);
+  border-radius: 3px;
+  cursor: pointer;
+}
+.write {
+  cursor: pointer;
+  position: absolute;
+  border-radius: 3px;
+  right: 0;
+  margin: 8px;
+  border: 1px solid rgb(207, 149, 110);
+}
+.menu {
+  /* padding: 10px;
+    height: 40px; */
+  text-align: center;
+  background-color: #eee;
+  border-bottom: 1px solid #aaa;
+}
+.menu > div:first-child {
+  cursor: pointer;
+  display: inline-block;
+  width: 45%;
+  border-bottom: 3px solid red;
+  padding: 10px;
+  color: red;
+  font-weight: bold;
+}
+.menu > div:last-child {
+  cursor: pointer;
+  display: inline-block;
+  width: 45%;
+}
+
+.title {
+  border-bottom: 1px solid #aaa;
+  padding: 10px;
+}
+.title > h3 {
+  padding: 5px 5px 0;
+}
+.title-info > p {
+  display: inline-block;
+  padding: 5px 0;
+  color: #666;
+}
+.title-info > p:first-child {
+  color: #ac3f21;
+  padding-left: 5px;
+}
+.title-info > p:not(:first-child)::before {
+  content: "|";
+  padding-right: 5px;
+  color: #ddd;
+}
+.content {
+  text-align: center;
+  padding: 10px 10px 30px;
+
+  border-bottom: 1px solid #aaa;
+}
+.content > img {
+  margin: 10px 0;
+}
+
+.reaction {
+  margin: 50px 0 30px;
+}
+.reaction > button:first-child {
+  background-color: #f00;
+  color: white;
+  padding: 8px;
+  border: 1px solid rgb(198, 0, 0);
+  border-radius: 2px;
+  margin: 5px;
+  cursor: pointer;
+}
+.reaction > button:last-child {
+  cursor: pointer;
+  background-color: #207ce5;
+  color: white;
+  padding: 8px;
+  border: 1px solid rgb(0, 0, 198);
+  border-radius: 2px;
+  margin: 5px;
+}
+.content > p:last-child {
+  text-align: left;
+  font-size: 12px;
+  color: #aaa;
+}
+
+.scrap {
+  background-color: #eee;
+  padding: 10px 15px;
+  border-bottom: 1px solid #ccc;
+}
+.scrap > button {
+  background-color: #fbfafa;
+  padding: 5px 8px;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  font-size: 16px;
+}
+.comment-list {
+  background-color: rgb(253, 253, 253);
+}
+.best {
+  background-color: rgb(255, 246, 246);
+  padding: 10px 10px 15px;
+  border-bottom: 2px solid #eee;
+}
+.best-info > h5 {
+  color: rgb(182, 83, 12);
+  font-size: 16px;
+  display: inline-block;
+}
+.best-info > h5 > span {
+  padding-right: 3px;
+}
+.best-info > p {
+  color: rgb(192, 192, 192);
+  font-size: 14px;
+  display: inline-block;
+  margin-left: 5px;
+}
+.best > p {
+  margin: 3px 0 8px;
+}
+.comment-bottom {
+  position: relative;
+}
+.comment-bottom button {
+  background-color: inherit;
+  border: none;
+  font-size: 15px;
+}
+.comment-reaction {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.comment-bottom > button:first-child {
+  color: rgb(192, 192, 192);
+  cursor: pointer;
+}
+.comment-reaction > button:first-child {
+  cursor: pointer;
+  color: #f00;
+  margin-right: 8px;
+}
+.comment-reaction > button:last-child {
+  cursor: pointer;
+  color: #00f;
+}
+.comment-reaction button > i {
+  color: rgb(155, 153, 153);
+  padding-right: 3px;
+}
+
+.comment {
+  padding: 10px 10px 15px;
+  border-bottom: 2px solid #eee;
+}
+.comment-info {
+  position: relative;
+}
+.comment-info > p:first-child {
+  color: rgb(182, 83, 12);
+  font-size: 16px;
+  display: inline-block;
+}
+.comment-info > p > span {
+  padding-right: 3px;
+}
+.comment-info > p:not(:first-child) {
+  color: rgb(192, 192, 192);
+  font-size: 14px;
+  display: inline-block;
+  margin-left: 5px;
+}
+.comment > p {
+  margin: 3px 0 8px;
+}
+
+.comment-info i {
+  position: absolute;
+  right: 0;
+  bottom: 0px;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  color: rgb(167, 166, 166);
+}
+.re-comment > div {
+  margin-left: 20px;
+  background-color: rgb(245, 245, 245);
+  padding: 10px 10px 15px;
+  border-bottom: 1px solid #eee;
+  border-left: 3px solid #ccc;
+  border-bottom: 2px solid #eee;
+}
+
+.re-comment > div > p {
+  margin: 3px 0 8px;
+}
+
+.re-re-comment > div {
+  margin-left: 40px;
+  background-color: rgb(245, 245, 245);
+  padding: 10px 10px 15px;
+  border-bottom: 2px solid #eee;
+  border-left: 3px solid #ccc;
+
+  border-bottom: 2px solid #eee;
+}
+.re-re-comment > div > p {
+  margin: 3px 0 8px;
+}
+.before-update {
+  text-decoration: line-through;
+  color: rgb(207, 206, 206);
+}
+.re-comment-list {
+  border-bottom: 2px solid #eee;
+}
+.re-re-comment:last-child > div:last-child {
+  border-bottom: none;
+}
+.write-comment {
+  background-color: #f6f5f5;
+  padding: 10px 20px;
+  border-bottom: 2px solid #eee;
+}
+.write-comment > form {
+  margin: 0;
+  padding: 0;
+  border: 1.5px solid #bbb;
+  border-radius: 6px;
+}
+.write-comment input {
+  height: 100px;
+  border: none;
+}
+.write-comment input:first-child {
+  width: 90%;
+  border-radius: 6px 0 0 6px;
+}
+.write-comment input:last-child {
+  width: 10%;
+  border-radius: 0 6px 6px 0;
+  border-left: 1.5px solid #bbb;
+  font-size: 16px;
+}
+.nav {
+  background-color: #f6f5f5;
+  text-align: center;
+  padding: 20px;
+}
+.nav > p {
+  display: inline-block;
+  border: 1px solid #aaa;
+  background-color: #fefefe;
+  color: #888;
+  padding: 6px 9px;
+  margin: 1px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.nav > p:first-child {
+  border: 2px solid #e00;
+  font-weight: bold;
+  color: #e00;
+}
+.footer {
+  background-color: #333;
+  text-align: center;
+  padding: 10px;
+}
+.footer > button {
+  cursor: pointer;
+  color: #ccc;
+  border: none;
+  border-radius: 3px;
+  padding: 5px;
+  font-size: 18px;
+  background-color: #444;
+}
+.footer > p {
+  font-size: 18px;
+  color: #888;
+  margin: 30px;
+}
+.post-image {
+  width: 100%;
+}

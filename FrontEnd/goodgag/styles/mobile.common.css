@@ -9,13 +9,26 @@
 }
 
 @media (max-width: 26.5625rem) {
+  .best-article {
+    /* 회전시 축도 회전됨 */
+    transform: rotate(-45deg) translate(2.9rem, 2rem);
+
+    width: 40%;
+    text-align: center;
+    padding: 0;
+  }
+  .search-form {
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.5fr 1fr 0.5fr 1fr 0.5fr;
+    text-align: center;
+  }
   .search-title {
     display: block;
   }
   .search-btn {
     display: block;
     width: 100%;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
   }
   .search-input {
     width: 100%;
@@ -26,30 +39,31 @@
     top: auto;
     bottom: 0;
   }
+  .header-category-list {
+    flex-direction: column;
+  }
   .header-category-list-item {
-    display: block;
-    width: 98%;
+    flex-basis: 100%;
+    width: 100%;
   }
-  .content {
-    margin-top: 8rem;
-  }
-  .regist-content {
-    margin-top: 8rem;
-  }
+
   .content-article {
     margin-left: 0;
+    overflow: hidden;
   }
-  .header-logo-list-item:nth-child(3),
-  .header-logo-list-item:nth-child(4) {
+  .content-article:hover {
+    .best-article {
+      transform: rotate(-45deg) translate(2.9rem, 2rem) scale(2, 2);
+    }
+  }
+  .header-logo > div:nth-child(3),
+  .header-logo > div:nth-child(4) {
     display: none;
   }
   .header-logo {
     text-align: center;
   }
 
-  /* .aside-menu {
-    display: block;
-  } */
   .hambuger {
     display: inline-block;
     position: absolute;
