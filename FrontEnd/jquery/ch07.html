@@ -5,19 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>jQuery Adventures</title>
     <link rel="stylesheet" href="./ch04.css" />
+
+    <script type="text/javascript" src="./js/lib/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript" src="./js/chapter07_jquery.js"></script>
   </head>
   <body>
     <h1 class="title">jQuery Travels - Trip Planner</h1>
     <h1 class="packages-title">Packages</h1>
 
-    <div class="package ticket-purchase">
+    <div class="package ticket-purchase" data-price="399.99">
       <h2 class="package-title">Hawaiian Vacation</h2>
       <p class="package-ticket-price">$399.00 per ticket.</p>
 
       <label for="package-ticket-count">Tickets:</label>
-      <input id="package-ticket-count" />
+      <input type="number" id="package-ticket-count" />
     </div>
 
-    <div class="total-price">Total Price: $399.99</div>
+    <div class="total-price">Total Price: $<span id="amount">399.99</span></div>
   </body>
 </html>
