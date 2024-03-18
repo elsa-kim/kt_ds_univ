@@ -106,7 +106,7 @@ function counter2() {
     return ++count;
   }
   return count2; // 함수반환
-  //  return count2; // 함수 결과 반환
+  //  return count2(); // 함수 결과 반환
 }
 
 var counter1 = counter();
