@@ -1,0 +1,30 @@
+.ajax-data > ul {
+  margin: 0;
+  padding: 0;
+}
+
+.ajax-data > ul > li {
+  list-style-type: none;
+  display: inline-block;
+  margin: 1rem;
+}
+
+.ajax-data > ul > li img {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 5rem;
+}
+
+.ajax-data > ul > li p {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+.hide {
+  display: none;
+}
+.ajax-data > div {
+  border: 1px solid #ccc;
+  margin: 1rem;
+  padding: 1rem;
+}
