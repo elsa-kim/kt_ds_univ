@@ -15,6 +15,8 @@ pageEncoding="UTF-8"%>
     table.table{
         border-collapse: collapse;
         border: 1px solid #DDD;
+        width: 100%;
+        table-layout: fixed;
     }
 
     table.table > thead > tr{
@@ -43,6 +45,10 @@ pageEncoding="UTF-8"%>
     table.table > tbody td{
         padding: 10px;
         color: #333;
+       
+    }
+    table.table > tbody td[colspan]{
+    	text-align: center;
     }
     div.grid{
         display: grid;
@@ -53,6 +59,20 @@ pageEncoding="UTF-8"%>
     div.grid div.right-align{
         text-align: right;
     }
+    .center-align{
+        text-align: center;
+    }
+
+    .left-align{
+        text-align: left;
+    }
+    .ellipsis{
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        width:100%;
+        display: block;
+    }
 </style>
 </head>
 <body>
@@ -62,6 +82,17 @@ pageEncoding="UTF-8"%>
 
         </div>
         <table class="table">
+            <!-- col: 각각 하나의 td 뜻함, width만 정의 가능, 스타일 지정 못함
+                * : 전체 사이즈 중 지정해주고 남는거 다 할당해라 
+            -->
+            <colgroup>
+                <col width="80px"/>
+                <col width="*"/>
+                <col width="150px"/>
+                <col width="80px"/>
+                <col width="150px"/>
+                <col width="150px"/>
+            </colgroup>
             <thead>
                 <tr>
                     <th>번호</th>
@@ -73,16 +104,37 @@ pageEncoding="UTF-8"%>
                 </tr>
             </thead>
             <tbody>
-	            <c:forEach items="${boardList.boardList}" var="board">
-	                <tr>
-	                    <td>${board.id}</td>
-	                    <td><a href="/board/view?id=${board.id}">${board.subject}</a></td>
-	                    <td>${board.email}</td>
-	                    <td>${board.viewCnt}</td>
-	                    <td>${board.crtDt}</td>
-	                    <td>${board.mdfyDt}</td>
-	                </tr>
-	            </c:forEach>
+                <!-- boardList의 내용이 존재한다면(1개 이상 있다면)
+                    	내용을 반복하면서 보여주고
+                    boardList의 내용이 존재하지 않는다면
+                    	"등록된 게시글이 없습니다. 첫 번째 글의 주인공이 되어보세요!"를 보여준다.
+                    jstl > choose when otherwise == Java if ~ else if ~ else
+                -->
+                <!-- 조건식의 시작을 알림. -->
+                <c:choose> 
+	                <%-- boardList의 내용이 존재한다면 --%>
+	                <c:when test="${not empty boardList.boardList}">
+		                <%-- 내용을 반복하면서 보여주고 --%>
+			            <c:forEach items="${boardList.boardList}" var="board">
+			                <tr>
+			                    <td class="center-align">${board.id}</td>
+			                    <td  class="left-align "><a href="/board/view?id=${board.id}" class="ellipsis">${board.subject}</a></td>
+			                    <td class="center-align">${board.email}</td>
+			                    <td class="center-align">${board.viewCnt}</td>
+			                    <td class="center-align">${board.crtDt}</td>
+			                    <td class="center-align">${board.mdfyDt}</td>
+			                </tr>
+			            </c:forEach>
+	                </c:when>
+	                <%-- boardList의 내용이 존재하지 않는다면 --%>
+	                <c:otherwise>
+	                	<tr>
+	                		<td colspan="6">
+	                			<a href="/board/write">등록된 게시글이 없습니다. 첫 번째 글의 주인공이 되어보세요!</a>
+	                		</td>
+	                	</tr>
+	                </c:otherwise>
+                </c:choose>
             </tbody>
         </table>
         <div class="right-align">
