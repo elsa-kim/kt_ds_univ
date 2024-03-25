@@ -1,8 +1,11 @@
 package com.hello.forum.bbs.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,9 +15,15 @@ import org.springframework.web.multipart.MultipartFile;
 import com.hello.forum.bbs.service.BoardService;
 import com.hello.forum.bbs.vo.BoardListVO;
 import com.hello.forum.bbs.vo.BoardVO;
+import com.hello.forum.beans.FileHandler;
+
+//import jakarta.validation.Valid;
 
 @Controller
 public class BoardController {
+	
+	@Autowired
+	private FileHandler fileHandler;
 
 	/*
 	 * Bean Container에서 BoardService 타입의 객체를 찾아
@@ -71,8 +80,12 @@ public class BoardController {
 			/*Command Object
 			 * 파라미터로 전송된 이름과 BoardVO의 멤버변수 이름과 같은 것이 있다면
 			 * 해당 멤버변수에 값을 할당해준다(setter이용)*/
+//			@Valid/*@Not Empty, @Email, @Size, @Min, @Max 등 이런것들을 검사하도록 지시.*/ 
 			BoardVO boardVO,
-			@RequestParam MultipartFile file
+			/*@Valid에 의해 실행된 파라미터 검사(@Not Empty, @Email, @Size, @Min, @Max 등)의 결과*/
+//			BindingResult bindingResult,
+			@RequestParam MultipartFile file,
+			Model model
 			) {
 		System.out.println("글 등록 처리를 해야합니다.");
 		/*
@@ -92,6 +105,12 @@ public class BoardController {
 //		System.out.println("제목: "+boardVO.getSubject());
 //		System.out.println("이메일: "+boardVO.getEmail());
 //		System.out.println("내용: "+boardVO.getContent());
+		
+		// 검사 내용 확인
+//		if (bindingResult.hasErrors()) {
+//			model.addAttribute("boardVO", boardVO);
+//			return "board/boardwrite";
+//		}
 		
 		boolean isCreateSuccess = this.boardService.createNewBoard(boardVO, file);
 		if (isCreateSuccess) {
@@ -148,13 +167,13 @@ public class BoardController {
 	 * @return
 	 */
 	@PostMapping("/board/modify/{id}")
-	public String doBoardModify(@PathVariable int id, BoardVO boardVO) {
+	public String doBoardModify(@PathVariable int id, BoardVO boardVO, @RequestParam MultipartFile file) {
 		
 		// Command Object 에는 전달된 ID가 없으므로
 		// PathVariable로 전달된 ID를 셋팅해준다.
 		boardVO.setId(id);
 		
-		boolean isUpdatedSuccess = this.boardService.updateOneBoard(boardVO);
+		boolean isUpdatedSuccess = this.boardService.updateOneBoard(boardVO, file);
 		
 		if (isUpdatedSuccess) {
 			System.out.println("수정 성공했습니다!");
@@ -192,5 +211,25 @@ public class BoardController {
 		}
 		
 		return "redirect:/board/list";
+	}
+	
+	@GetMapping("/board/file/download/{id}")
+	public ResponseEntity<Resource> downloadFile(@PathVariable int id){
+		
+		// 파일 다운로드를 위해서 id 값으로 게시글을 조회한다.
+		BoardVO boardVO = this.boardService.getOneBoard(id, false);
+		
+		// 만약, 게시글이 존재하지 않다면 "잘못된 접근입니다"라는 에러를 사용자에게 보여준다.
+		if (boardVO == null) {
+			throw new IllegalArgumentException("잘못된 접근입니다.");
+		}
+		
+		// 첨부된 파일이 없을 경우에도 "잘못된 접근입니다."라는 에러를 사용자에게 보여준다.
+		if (boardVO.getFileName() == null || boardVO.getFileName().length() == 0) {
+			throw new IllegalArgumentException("잘못된 접근입니다.");
+		}
+		
+		// 첨부된 파일이 있을 경우엔 파일을 사용자에게 보내준다. (Download)
+		return this.fileHandler.download(boardVO.getOriginFileName(), boardVO.getFileName());
 	}
 }

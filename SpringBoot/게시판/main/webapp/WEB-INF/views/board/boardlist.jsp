@@ -118,7 +118,12 @@ pageEncoding="UTF-8"%>
 			            <c:forEach items="${boardList.boardList}" var="board">
 			                <tr>
 			                    <td class="center-align">${board.id}</td>
-			                    <td  class="left-align "><a href="/board/view?id=${board.id}" class="ellipsis">${board.subject}</a></td>
+			                    <td  class="left-align ">
+                                    <a href="/board/view?id=${board.id}" class="ellipsis">${board.subject}</a>
+                                    <c:if test="${not empty board.originFileName}">
+                                        <a href="/board/file/download/${board.id}">첨부파일 다운로드</a>
+                                    </c:if>
+                                </td>
 			                    <td class="center-align">${board.email}</td>
 			                    <td class="center-align">${board.viewCnt}</td>
 			                    <td class="center-align">${board.crtDt}</td>
