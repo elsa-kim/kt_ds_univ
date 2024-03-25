@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,26 +29,25 @@
     input[type="file"] {
         padding:0;
     }
-    div.errors{
-    background-color: #FF00004A;
-    opacity: 0.8;
-    padding: 10px;
-    color: #333;
-    }
-
-    div.errors:last-child{
-        margin-bottom: 15px;
-    }
+   
 </style>
+<script type="text/javascript">
+    window.onload = function(){
+        var dialog = document.querySelector(".alert-dialog");
+        dialog?.showModal();
+    };
+</script>
 </head>
 <body>
+	<!-- dialog 원래 숨어있음 => 나오게 해야 나옴 -->
+	<c:if test="${not empty errorMassage}">
+	    <dialog class="alert-dialog">
+	        <h1>${errorMassage}</h1>
+	    </dialog>
+    </c:if>
     <h1>게시글 작성</h1>
-    <form:form modelAttribute="boardVO" action="/board/write" method="post" enctype="multipart/form-data">
-    	<div>
-    		<form:errors path="subject" element="div" cssClass="errors" />
-    		<form:errors path="email" element="div" cssClass="errors" />
-    		<form:errors path="content" element="div" cssClass="errors" />
-    	</div>
+    <form action="/board/write" method="post" enctype="multipart/form-data">
+    	
         <div class="grid">
             <label for="subject">제목</label>
             <input id="subject" type="text" name="subject" value="${boardVO.subject}"/>
@@ -68,6 +67,6 @@
                 </div>
             </div>
         </div>
-    </form:form>
+    </form>
 </body>
 </html>

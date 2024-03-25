@@ -16,6 +16,7 @@ import com.hello.forum.bbs.service.BoardService;
 import com.hello.forum.bbs.vo.BoardListVO;
 import com.hello.forum.bbs.vo.BoardVO;
 import com.hello.forum.beans.FileHandler;
+import com.hello.forum.utils.ValidationUtils;
 
 //import jakarta.validation.Valid;
 
@@ -112,6 +113,39 @@ public class BoardController {
 //			return "board/boardwrite";
 //		}
 		
+		// 수동 검사 시작
+		// 제목 검사
+		boolean isNotEmptySubject = ValidationUtils.notEmpty(boardVO.getSubject());
+		boolean isNotEmptyEmail = ValidationUtils.notEmpty(boardVO.getEmail());
+		boolean isNotEmptyContent = ValidationUtils.notEmpty(boardVO.getContent());
+		boolean isEmailFormat = ValidationUtils.email(boardVO.getEmail());
+		
+		if (!isNotEmptySubject) {
+			// 제목을 입력하지 않았다면
+			model.addAttribute("errorMassage","제목은 필수 입력 값입니다.");
+			model.addAttribute("boardVO", boardVO);
+			return "board/boardwrite";
+		}
+		if (!isNotEmptyEmail) {
+			// 이메일을 입력하지 않았다면
+			model.addAttribute("errorMassage","이메일은 필수 입력 값입니다.");
+			model.addAttribute("boardVO", boardVO);
+			return "board/boardwrite";
+		}
+		if (!isNotEmptyContent) {
+			// 내용을 입력하지 않았다면
+			model.addAttribute("errorMassage","내용은 필수 입력 값입니다.");
+			model.addAttribute("boardVO", boardVO);
+			return "board/boardwrite";
+		}
+		if (!isEmailFormat) {
+			// 이메일을 이메일 형태로 입력하지 않았다면
+			model.addAttribute("errorMassage","이메일을 올바른 형태로 작성해주세요.");
+			model.addAttribute("boardVO", boardVO);
+			return "board/boardwrite";
+		}
+		
+		
 		boolean isCreateSuccess = this.boardService.createNewBoard(boardVO, file);
 		if (isCreateSuccess) {
 			System.out.println("글 등록 성공");
@@ -167,7 +201,39 @@ public class BoardController {
 	 * @return
 	 */
 	@PostMapping("/board/modify/{id}")
-	public String doBoardModify(@PathVariable int id, BoardVO boardVO, @RequestParam MultipartFile file) {
+	public String doBoardModify(@PathVariable int id, BoardVO boardVO, @RequestParam MultipartFile file, Model model) {
+		
+		// 수동 검사 시작
+		// 제목 검사
+		boolean isNotEmptySubject = ValidationUtils.notEmpty(boardVO.getSubject());
+		boolean isNotEmptyEmail = ValidationUtils.notEmpty(boardVO.getEmail());
+		boolean isNotEmptyContent = ValidationUtils.notEmpty(boardVO.getContent());
+		boolean isEmailFormat = ValidationUtils.email(boardVO.getEmail());
+		
+		if (!isNotEmptySubject) {
+			// 제목을 입력하지 않았다면
+			model.addAttribute("errorMassage","제목은 필수 입력 값입니다.");
+			model.addAttribute("boardVO", boardVO);
+			return "board/boardmodify";
+		}
+		if (!isNotEmptyEmail) {
+			// 이메일을 입력하지 않았다면
+			model.addAttribute("errorMassage","이메일은 필수 입력 값입니다.");
+			model.addAttribute("boardVO", boardVO);
+			return "board/boardmodify";
+		}
+		if (!isNotEmptyContent) {
+			// 내용을 입력하지 않았다면
+			model.addAttribute("errorMassage","내용은 필수 입력 값입니다.");
+			model.addAttribute("boardVO", boardVO);
+			return "board/boardmodify";
+		}
+		if (!isEmailFormat) {
+			// 이메일을 이메일 형태로 입력하지 않았다면
+			model.addAttribute("errorMassage","이메일을 올바른 형태로 작성해주세요.");
+			model.addAttribute("boardVO", boardVO);
+			return "board/boardmodify";
+		}
 		
 		// Command Object 에는 전달된 ID가 없으므로
 		// PathVariable로 전달된 ID를 셋팅해준다.

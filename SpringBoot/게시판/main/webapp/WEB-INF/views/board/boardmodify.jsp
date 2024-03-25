@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,8 +36,20 @@
     }
 
 </style>
+<script type="text/javascript">
+    window.onload = function(){
+        var dialog = document.querySelector(".alert-dialog");
+        dialog?.showModal();
+    };
+</script>
 </head>
 <body>
+	<!-- dialog 원래 숨어있음 => 나오게 해야 나옴 -->
+	<c:if test="${not empty errorMassage}">
+	    <dialog class="alert-dialog">
+	        <h1>${errorMassage}</h1>
+	    </dialog>
+    </c:if>
     <h1>게시글 수정</h1>
     <form action="/board/modify/${boardVO.id}" method="post" enctype="multipart/form-data">
         <div class="grid">
