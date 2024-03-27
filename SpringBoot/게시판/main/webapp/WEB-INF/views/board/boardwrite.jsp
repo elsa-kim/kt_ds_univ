@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>게시글 작성</title>
+<jsp:include page="../commonheader.jsp"></jsp:include>
 <style type="text/css">
     /* div인데 클래스가 grid인 것(띄어쓰기 없음) */
     div.grid{
@@ -14,29 +15,9 @@
         grid-template-rows: 28px 28px 28px 320px 1fr;
         row-gap: 10px;
     }
-    div.grid > div.btn-group{
-        grid-column: 1 / 3;
-    }
-    div.grid div.right-align{
-        text-align: right;
-    }
-    label{
-        padding-left: 10px;
-    }
-    button, input, textarea{
-        padding: 10px;
-    }
-    input[type="file"] {
-        padding:0;
-    }
    
 </style>
-<script type="text/javascript">
-    window.onload = function(){
-        var dialog = document.querySelector(".alert-dialog");
-        dialog?.showModal();
-    };
-</script>
+<script type="text/javascript" src="/js/boardwrite.js"></script>
 </head>
 <body>
 	<!-- dialog 원래 숨어있음 => 나오게 해야 나옴 -->
@@ -45,6 +26,9 @@
 	        <h1>${errorMassage}</h1>
 	    </dialog>
     </c:if>
+
+    <jsp:include page="../member/membermenu.jsp"></jsp:include>
+    
     <h1>게시글 작성</h1>
     <form action="/board/write" method="post" enctype="multipart/form-data">
     	

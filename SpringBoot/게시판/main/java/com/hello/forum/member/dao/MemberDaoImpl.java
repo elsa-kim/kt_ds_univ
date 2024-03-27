@@ -18,12 +18,12 @@ public class MemberDaoImpl extends SqlSessionDaoSupport implements MemberDao {
 	
 	@Override
 	public int getEmailCount(String email) {
-		return getSqlSession().selectOne(MemberDao.NAME_SPACE+"getEmailCount", email);
+		return getSqlSession().selectOne(MemberDao.NAME_SPACE+".getEmailCount", email);
 	}
 
 	@Override
 	public int createNewMember(MemberVO memberVO) {
-		return getSqlSession().insert(MemberDao.NAME_SPACE+"createNewMember", memberVO);
+		return getSqlSession().insert(MemberDao.NAME_SPACE+".createNewMember", memberVO);
 	}
 
 	@Override
@@ -34,6 +34,11 @@ public class MemberDaoImpl extends SqlSessionDaoSupport implements MemberDao {
 	@Override
 	public MemberVO selectMemberByEmailAndPassword(MemberVO memberVO) {
 		return getSqlSession().selectOne(MemberDao.NAME_SPACE+".selectMemberByEmailAndPassword", memberVO);
+	}
+
+	@Override
+	public int deleteMemberByEmail(String email) {
+		return getSqlSession().update(MemberDao.NAME_SPACE+".deleteMemberByEmail", email);
 	}
 
 }

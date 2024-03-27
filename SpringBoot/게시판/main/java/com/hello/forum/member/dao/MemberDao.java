@@ -35,4 +35,6 @@ public interface MemberDao {
 	 */
 	public MemberVO selectMemberByEmailAndPassword(MemberVO memberVO);
 
+	public int deleteMemberByEmail(String email);
+
 }

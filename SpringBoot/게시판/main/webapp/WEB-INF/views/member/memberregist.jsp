@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
+<jsp:include page="../commonheader.jsp"></jsp:include>
 <style type="text/css">
     div.grid{
         display: grid;
@@ -13,22 +14,7 @@
         grid-template-rows: repeat(4, 28px) 1fr;
         row-gap: 10px;
     }
-    div.grid > div.btn-group{
-        display: grid;
-        grid-column: 1 / 3;
-    }
-    div.grid div.right-align{
-        text-align: right;
-    }
-    label{
-        padding-left: 10px;
-    }
-    button, input{
-        padding: 10px;
-    }
-    input[type=file]{
-        padding: 0px;
-    }
+    
     .available{
         background-color: #0F03;
     }
@@ -36,7 +22,6 @@
         background-color: #f003;
     }
 </style>
-<script type="text/javascript" src="/js/lib/jquery-3.7.1.min.js"></script>
 <script type="text/javascript">
     $().ready(function(){
         var alertDialog = $(".alert-dialog")

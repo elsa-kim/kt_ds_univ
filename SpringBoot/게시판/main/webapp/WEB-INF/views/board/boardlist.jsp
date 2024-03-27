@@ -6,77 +6,21 @@ pageEncoding="UTF-8"%>
 <head>
 <meta charset="UTF-8">
 <title>게시글 목록</title>
+<jsp:include page="../commonheader.jsp"></jsp:include>
 <style type="text/css">
-    a:link, a:hover, a:active, a:visited{
-        color: #333;
-        text-decoration: none;
-    }
-
-    table.table{
-        border-collapse: collapse;
-        border: 1px solid #DDD;
-        width: 100%;
-        table-layout: fixed;
-    }
-
-    table.table > thead > tr{
-        background-color: #fff;
-    }
-
-    table.table > thead th {
-        padding: 10px;
-        color: #333;
-    }
-
-    table.table th, table.table td{
-        border-right: 1px solid #f0f0f0;
-    }
-
-    table.table th:last-child, table.table td:last-child{
-        border-right: none;
-    }
-
-    table.table > tbody tr:nth-child(odd){
-        background-color: #f5f5f5;
-    }
-    table.table > tbody tr:hover{
-        background-color: #fafafa;
-    }
-    table.table > tbody td{
-        padding: 10px;
-        color: #333;
-       
-    }
-    table.table > tbody td[colspan]{
-    	text-align: center;
-    }
+   
     div.grid{
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: 28px 1fr 28px;
+        grid-template-rows: 28px 28px 1fr 28px;
         row-gap: 10px;
     }
-    div.grid div.right-align{
-        text-align: right;
-    }
-    .center-align{
-        text-align: center;
-    }
-
-    .left-align{
-        text-align: left;
-    }
-    .ellipsis{
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        width:100%;
-        display: block;
-    }
+   
 </style>
 </head>
 <body>
     <div class="grid">
+        <jsp:include page="../member/membermenu.jsp"></jsp:include>
         <div class="right-align">
             총 ${boardList.boardCnt} 건의 게시글이 검색되었습니다.
 
@@ -97,7 +41,7 @@ pageEncoding="UTF-8"%>
                 <tr>
                     <th>번호</th>
                     <th>제목</th>
-                    <th>이메일</th>
+                    <th>작성자 이름</th>
                     <th>조회수</th>
                     <th>등록일</th>
                     <th>수정일</th>
@@ -124,7 +68,7 @@ pageEncoding="UTF-8"%>
                                         <a href="/board/file/download/${board.id}">첨부파일 다운로드</a>
                                     </c:if>
                                 </td>
-			                    <td class="center-align">${board.email}</td>
+			                    <td class="center-align">${board.memberVO.name}</td>
 			                    <td class="center-align">${board.viewCnt}</td>
 			                    <td class="center-align">${board.crtDt}</td>
 			                    <td class="center-align">${board.mdfyDt}</td>
@@ -142,9 +86,11 @@ pageEncoding="UTF-8"%>
                 </c:choose>
             </tbody>
         </table>
-        <div class="right-align">
-            <a href="/board/write">게시글 등록</a>
-        </div>
+        <c:if test="${not empty sessionScope._LOGIN_USER_}">
+            <div class="right-align">
+                <a href="/board/write">게시글 등록</a>
+            </div>
+        </c:if>
     </div>
 </body>
 </html>

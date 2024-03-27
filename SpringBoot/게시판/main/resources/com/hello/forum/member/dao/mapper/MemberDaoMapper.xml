@@ -38,4 +38,10 @@
 		 WHERE EMAIL = #{email}
 		   AND PASSWORD = #{password}
 	</select>
+	
+	<update id="deleteMemberByEmail" parameterType="String">
+		UPDATE MEMBERS
+		   SET DEL_YN = 'Y'
+		 WHERE EMAIL = #{_parameter}
+	</update>
 </mapper>
