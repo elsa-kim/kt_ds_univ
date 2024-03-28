@@ -1,5 +1,5 @@
 $().ready(function () {
-  // id가 desrinations인 엘리먼트 하위의 모든 li를 찾아온다
+  // id가 destinations인 엘리먼트 하위의 모든 li를 찾아온다
   // CSS : "#destinations li"
   // $("#destinationa li") <-- 이 방법은 사용 x
   var liInDestinations = $("#destinations").find("li"); // <-- 더 빠르다
