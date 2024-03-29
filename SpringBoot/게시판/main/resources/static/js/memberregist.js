@@ -5,8 +5,9 @@ $().ready(function(){
         $("div.grid").removeAttr("style");
 
         $.post("/member/login", {
-            "email":$("#email").val(),
-            "password":$("#password").val()
+            email:$("#email").val(),
+            password:$("#password").val(),
+            nextUrl: $("#next").val()
         }, function(response){
             var errors = response.data.errors
             var errorMessage = response.data.errorMessage
