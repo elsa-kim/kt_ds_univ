@@ -1,5 +1,7 @@
 package com.hello.forum.beans;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.hello.forum.member.vo.MemberVO;
@@ -11,6 +13,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 public class CheckSessionInterceptor implements HandlerInterceptor{
+	
+	private Logger logger = LoggerFactory.getLogger(CheckSessionInterceptor.class);
 
 	/**
 	 * Controller 실행 전에 Interceptor가 개입
@@ -41,10 +45,10 @@ public class CheckSessionInterceptor implements HandlerInterceptor{
 			// 쿼리스트링 파라미터('?' 제외) // id=123, 없을 땐 null
 			String queryString = request.getQueryString();
 			
-			System.out.println("HttpMethod : "+ httpMethod);
-			System.out.println("RequestURI : "+ uri);
+			logger.debug("HttpMethod : "+ httpMethod);
+			logger.debug("RequestURI : "+ uri);
 //			System.out.println("RequestURL : "+ url);
-			System.out.println("QueryString : "+ queryString);
+			logger.debug("QueryString : "+ queryString);
 			
 			if(httpMethod.equals("get")) {
 				String nextUrl = uri;

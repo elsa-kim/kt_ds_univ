@@ -17,6 +17,7 @@ pageEncoding="UTF-8"%>
     }
    
 </style>
+<script type="text/javascript" src="/js/boardlist.js"></script>
 </head>
 <body>
     <div class="grid">
@@ -88,8 +89,10 @@ pageEncoding="UTF-8"%>
         </table>
         <c:if test="${not empty sessionScope._LOGIN_USER_}">
             <div class="right-align">
-                <a href="/board/excel/download">엑셀 다운로드</a>
+                <a href="/board/excel/download2">엑셀 다운로드</a>
                 <a href="/board/write">게시글 등록</a>
+                <a id="uploadExcelfile" href="javascript:void(0);">게시글 일괄 등록</a>
+                <input type="file" id="excelfile" style="display: none;" />
             </div>
         </c:if>
     </div>

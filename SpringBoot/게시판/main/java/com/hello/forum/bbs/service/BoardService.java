@@ -45,4 +45,18 @@ public interface BoardService {
 	 * @return 삭제 성공 여부
 	 */
 	public boolean deleteOneBoard(int id);
+
+	/**
+	 * 엑셀 파일로 게시글을 대량등록한다.
+	 * @param excelFile 
+	 * @return
+	 */
+	public boolean createMassiveBoard(MultipartFile excelFile);
+
+	/**
+	 * 엑셀 파일로 게시글을 대량등록한다.
+	 * @param excelFile 
+	 * @return
+	 */
+	public boolean createMassiveBoard2(MultipartFile excelFile);
 }
