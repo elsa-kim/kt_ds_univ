@@ -40,7 +40,7 @@ public class MemberController {
 	
 	// http://localhost:8080/member/regist/available?email=aaa@aaa.com
 	@ResponseBody // 응답하는 데이터를 JSON으로 변환해 클라이언트에게 반환한다.
-	@GetMapping("/member/regist/available")
+	@GetMapping("/ajax/member/regist/available")
 	public Map<String, Object> checkAvailableEmail(@RequestParam String email){
 		
 		// 사용가능한 이메일이라면 true, 아니라면 false
@@ -129,7 +129,7 @@ public class MemberController {
 	}
 	
 	@ResponseBody
-	@PostMapping("/member/login")
+	@PostMapping("/ajax/member/login")
 	public AjaxResponse doLogin(MemberVO memberVO, HttpSession session, @RequestParam(defaultValue = "/board/list") String nextUrl){
 		logger.info("nextUrl: "+nextUrl);
 		
@@ -145,16 +145,13 @@ public class MemberController {
 			return new AjaxResponse().append("errors", errors);
 		}
 		
-		try {
-			MemberVO member = this.memberService.getMember(memberVO);
-			// 로그인이 정상적으로 이루어졌다면 세션을 생성한다.
-			session.setAttribute("_LOGIN_USER_", member);
-			// request 없을 때 세션 유지되는 시간(초 단위), default: 30min, 0일 경우 계속 유지
-//			session.setMaxInactiveInterval(30);
-		} catch(IllegalArgumentException iae) {
-			// 로그인에 실패했다면 화면에 실패 사유를 보내준다.
-			return new AjaxResponse().append("errorMessage", iae.getMessage());
-		}
+		
+		MemberVO member = this.memberService.getMember(memberVO);
+		// 로그인이 정상적으로 이루어졌다면 세션을 생성한다.
+		session.setAttribute("_LOGIN_USER_", member);
+		// request 없을 때 세션 유지되는 시간(초 단위), default: 30min, 0일 경우 계속 유지
+//		session.setMaxInactiveInterval(30);
+		
 		
 		return new AjaxResponse().append("next", nextUrl);
 	}
@@ -168,7 +165,7 @@ public class MemberController {
 	}
 	
 	@ResponseBody
-	@GetMapping("/member/delete-me")
+	@GetMapping("/ajax/member/delete-me")
 	public AjaxResponse doDeleteMe(HttpSession session, @SessionAttribute("_LOGIN_USER_") MemberVO memberVO) {
 		// 현재 로그인 되어있는 사용자의 정보
 		// MemberVO memberVO = (MemberVO) session.getAttribute("_LOGIN_USER_"); //-> @SessionAttribute("_LOGIN_USER_") MemberVO memberVO 가 같은 역할 함

@@ -45,7 +45,7 @@ public class WebConfig implements WebMvcConfigurer{
 				.excludePathPatterns(this.authCheckIgnoreUrlPatterns);
 		
 		registry.addInterceptor(new BlockDuplicateLoginInterceptor())
-				.addPathPatterns("/member/login", "/member/regist");
+				.addPathPatterns("/member/login", "/ajax/member/login", "/member/regist", "/ajax/member/regist");
 	}
 	
 	@Override
