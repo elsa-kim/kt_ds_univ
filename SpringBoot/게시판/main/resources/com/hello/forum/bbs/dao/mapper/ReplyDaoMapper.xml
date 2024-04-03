@@ -15,14 +15,14 @@
 		 SELECT LEVEL
 		      , R.REPLY_ID
 		      , R.BOARD_ID
-		 	 , R.EMAIL
-		 	 , R.CONTENT
-		 	 , R.CRT_DT
-		 	 , R.MDFY_DT
-		 	 , R.RECOMMEND_CNT
-		 	 , R.PARENT_REPLY_ID
-		 	 , R.DEL_YN
-		 	 , M.NAME
+		 	  , R.EMAIL
+		 	  , R.CONTENT
+		 	  , R.CRT_DT
+		 	  , R.MDFY_DT
+		 	  , R.RECOMMEND_CNT
+		 	  , R.PARENT_REPLY_ID
+		 	  , R.DEL_YN
+		 	  , M.NAME
 		   FROM REPLIES R
 		  INNER JOIN BOARD B
 		     ON R.BOARD_ID = B.ID

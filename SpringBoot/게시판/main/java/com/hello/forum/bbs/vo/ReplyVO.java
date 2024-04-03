@@ -1,7 +1,10 @@
 package com.hello.forum.bbs.vo;
 
+import com.hello.forum.member.vo.MemberVO;
+
 public class ReplyVO {
 	
+	private int level;
 	private int replyId;
 	private int boardId;
 	private String email;
@@ -12,6 +15,21 @@ public class ReplyVO {
 	private int parentReplyId;
 	private String delYn;
 	
+	private MemberVO memberVO;
+	
+	public int getLevel() {
+		return level;
+	}
+	public void setLevel(int level) {
+		this.level = level;
+	}
+	
+	public MemberVO getMemberVO() {
+		return memberVO;
+	}
+	public void setMemberVO(MemberVO memberVO) {
+		this.memberVO = memberVO;
+	}
 	public int getReplyId() {
 		return replyId;
 	}
