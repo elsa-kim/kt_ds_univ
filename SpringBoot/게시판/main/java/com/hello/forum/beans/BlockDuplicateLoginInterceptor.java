@@ -20,7 +20,7 @@ public class BlockDuplicateLoginInterceptor implements HandlerInterceptor {
 		
 		// 로그인 되어 있다면
 		if(memberVO != null) {
-			response.sendRedirect("/board/list");
+			response.sendRedirect("/board/search");
 			return false;
 		}
 		

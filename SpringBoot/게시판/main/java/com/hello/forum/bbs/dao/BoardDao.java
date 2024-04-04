@@ -3,6 +3,7 @@ package com.hello.forum.bbs.dao;
 import java.util.List;
 
 import com.hello.forum.bbs.vo.BoardVO;
+import com.hello.forum.bbs.vo.SearchBoardVO;
 
 public interface BoardDao {
 	
@@ -21,6 +22,13 @@ public interface BoardDao {
 	 * @return
 	 */
 	public List<BoardVO> getAllBoard();
+	
+	/**
+	 * DB에 저장된 모든 게시글의 목록을 조회
+	 * @param searchBoardVO 검색할 조건(페이지 번호, 노출할 목록 개수 등)
+	 * @return DB에서 조회된 게시글의 목록
+	 */
+	public List<BoardVO> searchAllBoard(SearchBoardVO searchBoardVO);
 
 	/**
 	 * 새로운 글을 데이터베이스에 저장한다

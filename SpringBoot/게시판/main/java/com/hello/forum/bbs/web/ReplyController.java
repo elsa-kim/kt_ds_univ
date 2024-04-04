@@ -26,7 +26,6 @@ public class ReplyController {
 	@GetMapping("/ajax/board/reply/{boardId}")
 	public AjaxResponse getAllReplies(@PathVariable int boardId){
 		List<ReplyVO> replyList = replyService.getAllReplies(boardId);
-		System.out.println("djfhsdlfjldjf");
 		return new AjaxResponse().append("count", replyList.size()).append("replies", replyList);
 	}
 	
@@ -39,9 +38,9 @@ public class ReplyController {
 		return new AjaxResponse().append("result", isSuccess);
 	}
 	
-	@GetMapping("/ajax/ajax/board/reply/delete/{replyId}")
-	public AjaxResponse doDeleteReplies(@PathVariable int repltId, @SessionAttribute("_LOGIN_USER_") MemberVO memberVO){
-		boolean isSuccess = replyService.deleteOneReply(repltId, memberVO.getEmail());
+	@GetMapping("/ajax/board/reply/delete/{replyId}")
+	public AjaxResponse doDeleteReplies(@PathVariable int replyId, @SessionAttribute("_LOGIN_USER_") MemberVO memberVO){
+		boolean isSuccess = replyService.deleteOneReply(replyId, memberVO.getEmail());
 		return new AjaxResponse().append("result", isSuccess);
 	}
 	

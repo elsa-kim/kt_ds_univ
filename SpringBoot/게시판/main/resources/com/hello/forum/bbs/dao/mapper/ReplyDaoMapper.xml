@@ -8,6 +8,7 @@
 		<association property="memberVO" javaType="com.hello.forum.member.vo.MemberVO">
 			<id column="EMAIL" property="email"/>
 			<result column="NAME" property="name"/>
+			<result column="M_DEL_YN" property="delYn"/>
 		</association>
 	</resultMap>
 	
@@ -23,6 +24,7 @@
 		 	  , R.PARENT_REPLY_ID
 		 	  , R.DEL_YN
 		 	  , M.NAME
+		 	  , M.DEL_YN M_DEL_YN
 		   FROM REPLIES R
 		  INNER JOIN BOARD B
 		     ON R.BOARD_ID = B.ID
