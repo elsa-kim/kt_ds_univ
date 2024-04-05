@@ -12,7 +12,7 @@
     div.grid{
         display: grid;
         grid-template-columns: 80px 1fr;
-        grid-template-rows: repeat(7, 28px) 320px 1fr 1fr;
+        grid-template-rows: repeat(6, 28px) auto auto 1fr;
         row-gap: 10px;
     }
     
@@ -42,6 +42,9 @@
         <div>${boardVO.content}</div>
 
         <div class="replies">
+            <div>
+                <button type="button" id="get-all-replies-btn">모든 댓글 불러오기</button>
+            </div>
             <div class="reply-items"></div>
             <div class="write-reply">
                 <textarea id="txt-reply"></textarea>

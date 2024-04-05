@@ -42,6 +42,10 @@ button, input, textarea{
 button:focus, input:focus, textarea:focus{
     outline: none;
 }
+button:hover{
+    font-weight: bold;
+    cursor: pointer;
+}
 
 a:active, a:hover, a:visited, a:link{
     color: #333;
@@ -136,3 +140,23 @@ ul.page-nav > li.active > a{
     color: #F00;
     font-weight: bold;
 }
+
+/******************검색 부분********************/
+
+form#search-form {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  form#search-form > ul.page-nav {
+    flex-grow: 1;
+  }
+  
+  form#search-form > * {
+    margin-right: 0.5rem;
+    white-space: nowrap;
+  }
+  
+  form#search-form > *:last-child {
+    margin-right: 0;
+  }

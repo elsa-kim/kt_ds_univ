@@ -48,6 +48,11 @@ public class BoardDaoImpl extends SqlSessionDaoSupport implements BoardDao{
 		// sqlSession을 받아오는 명령어 getSqlSession() --> sqlSessionTemplate 반환
 		return getSqlSession().selectOne(BoardDao.NAME_SPACE + ".getBoardAllCount");
 	}
+	
+	@Override
+	public int searchBoardAllCount(SearchBoardVO searchBoardVO) {
+		return getSqlSession().selectOne(BoardDao.NAME_SPACE + ".searchBoardAllCount", searchBoardVO);
+	}
 
 	@Override
 	public List<BoardVO> getAllBoard() {
@@ -88,6 +93,8 @@ public class BoardDaoImpl extends SqlSessionDaoSupport implements BoardDao{
 	public int deleteOneBoard(int id) {
 		return getSqlSession().update(BoardDao.NAME_SPACE + ".deleteOneBoard", id);
 	}
+
+	
 
 	
 	

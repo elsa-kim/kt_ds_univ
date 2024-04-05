@@ -1,4 +1,17 @@
 $().ready(function(){
+
+    $("#list-size").on("change", function(){
+        search(0);
+    })
+
+    $("#search-btn").on("click", function(){
+        search(0);
+    })
+
+    $("#cancel-search-btn").on("click", function(){
+        location.href = "/board/search";
+    })
+
     $("#uploadExcelfile").on("click",function(){
         $("#excelfile").click();
     })
