@@ -1,8 +1,6 @@
 package com.hello.forum.bbs.web;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +12,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.hello.forum.bbs.service.ReplyService;
 import com.hello.forum.bbs.vo.ReplyVO;
-import com.hello.forum.common.vo.PaginateVO;
+import com.hello.forum.bbs.vo.SearchReplyVO;
 import com.hello.forum.member.vo.MemberVO;
 import com.hello.forum.utils.AjaxResponse;
 
@@ -25,9 +23,14 @@ public class ReplyController {
 	private ReplyService replyService;
 	
 	@GetMapping("/ajax/board/reply/{boardId}")
-	public AjaxResponse getAllReplies(@PathVariable int boardId){
-		List<ReplyVO> replyList = this.replyService.getAllReplies(boardId);
-		return new AjaxResponse().append("count", replyList.size()).append("replies", replyList);
+	public AjaxResponse getAllReplies(@PathVariable int boardId, SearchReplyVO searchReplyVO){
+		searchReplyVO.setBoardId(boardId);
+		List<ReplyVO> replyList = this.replyService.getAllReplies(searchReplyVO);
+
+		searchReplyVO.setPageCount(replyList.size());
+
+		return new AjaxResponse().append("count", replyList.size())
+				.append("replies", replyList).append("paginate", searchReplyVO);
 	}
 	
 	@PostMapping("/ajax/board/reply/{boardId}")

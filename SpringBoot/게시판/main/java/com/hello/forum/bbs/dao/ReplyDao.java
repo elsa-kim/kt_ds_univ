@@ -3,6 +3,7 @@ package com.hello.forum.bbs.dao;
 import java.util.List;
 
 import com.hello.forum.bbs.vo.ReplyVO;
+import com.hello.forum.bbs.vo.SearchReplyVO;
 
 public interface ReplyDao {
 	
@@ -13,7 +14,7 @@ public interface ReplyDao {
 	 * @param boardId 조회할 게시글의 번호
 	 * @return 게시글에 등록된 모든 댓글 목록
 	 */
-	public List<ReplyVO> getAllReplies(int boardId);
+	public List<ReplyVO> getAllReplies(SearchReplyVO searchReplyVO);
 
 	/**
 	 * 댓글 하나를 조회한다.

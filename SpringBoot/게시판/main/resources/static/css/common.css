@@ -120,6 +120,10 @@ div.replies > .reply-items{
     row-gap: 10px;
 }
 
+.reply .reply {
+    margin-top: 10px;
+  }
+
 pre.content{
     margin: 0px;
 }

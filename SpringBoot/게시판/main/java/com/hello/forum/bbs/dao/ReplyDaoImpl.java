@@ -1,8 +1,6 @@
 package com.hello.forum.bbs.dao;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.support.SqlSessionDaoSupport;
@@ -10,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.hello.forum.bbs.vo.ReplyVO;
+import com.hello.forum.bbs.vo.SearchReplyVO;
 
 @Repository
 public class ReplyDaoImpl extends SqlSessionDaoSupport implements ReplyDao {
@@ -21,9 +20,9 @@ public class ReplyDaoImpl extends SqlSessionDaoSupport implements ReplyDao {
 	}
 	
 	@Override
-	public List<ReplyVO> getAllReplies(int boardId) {
+	public List<ReplyVO> getAllReplies(SearchReplyVO searchReplyVO) {
 		
-		return getSqlSession().selectList(ReplyDao.NAME_SPACE+".getAllReplies", boardId);
+		return getSqlSession().selectList(ReplyDao.NAME_SPACE+".getAllReplies", searchReplyVO);
 	}
 
 	@Override
