@@ -1,4 +1,31 @@
 $().ready(function(){
+    var alertDialog = $(".alert-dialog");
+
+    // 배열.
+    if (alertDialog && alertDialog.length > 0) {
+      alertDialog[0].showModal();
+    }
+  
+    $("#email").on("keyup", function () {
+      // 서버에게 사용할 수 있는 이메일인지 확인 받는다.
+      $.get(
+        "/ajax/member/regist/available",
+        { email: $(this).val() },
+        function (response) {
+          var available = response.available;
+          if (available) {
+            $("#email").addClass("available");
+            $("#email").removeClass("unusable");
+            $("#btn-regist").removeAttr("disabled");
+          } else {
+            $("#email").addClass("unusable");
+            $("#email").removeClass("available");
+            $("#btn-regist").attr("disabled", "disabled");
+          }
+        }
+      );
+    });
+
     $("#btn-login").on("click", function(){
 
         $(".error").remove();
@@ -9,10 +36,12 @@ $().ready(function(){
             password:$("#password").val(),
             nextUrl: $("#next").val()
         }, function(response){
+            
             var errors = response.data.errors
             var errorMessage = response.data.errorMessage
             var next = response.data.next
 
+            console.log(response)
             // 파라미터 유효성 검사에 실패했을 경우
             if(errors){
                 console.log(errors)
@@ -77,6 +106,7 @@ $().ready(function(){
             // 파라미터 유효성 검사는 패스
             // 이메일이나 패스워드가 잘못된 경우
             if(errorMessage){
+                console.log(errorMessage)
                 var errorDiv = $("<div></div>");
                 errorDiv.addClass("error");
                 errorDiv.text(errorMessage);

@@ -22,45 +22,16 @@
         background-color: #f003;
     }
 </style>
-<script type="text/javascript">
-    $().ready(function(){
-        var alertDialog = $(".alert-dialog")
-        // if문 안에서 false로 처리 => 실행되지 않음
-        // if(undefined){} if(null){} if(0){} if(""){} if(false){}
-        if(alertDialog && alertDialog.length > 0){
-            alertDialog[0].showModal();
-        }
-
-        $("#email").on("keyup", function(){
-            // 서버에게 사용할 수 있는 이메일인지 확인 받는다.
-            $.get("/ajax/member/regist/available", {"email":$(this).val()}, function(response){
-                var available = response.available;
-                if (available){
-                    $('#email').addClass("available");
-                    $('#email').removeClass("unusable");
-                    $("#btn-regist").removeAttr("disabled");
-                }else{
-                    $('#email').addClass("unusable");
-                    $('#email').removeClass("available");
-                    $("#btn-regist").attr("disabled","disabled");
-                }
-            })
-        })
-    })
-    // window.onload = function(){
-    //     var dialog = document.querySelector(".alert-dialog");
-    //     dialog?.showModal();
-    // };
-</script>
+<script type="text/javascript" src="/js/memberregist.js"></script>
 </head>
 <body>
-	<c:if test="${not empty errorMassage}">
+	<c:if test="${not empty errorMessage}">
 	    <dialog class="alert-dialog" >
-	        <h1>${errorMassage}</h1>
+	        <h1>${errorMessage}</h1>
 	    </dialog>
     </c:if>
     <h1>회원가입</h1>
-    <form method="post">
+    <form method="post" action="/member/regist">
         <div class="grid">
             <label for="email">이메일</label>
             <input type="email" name="email" id="email" value="${memberVO.email}">

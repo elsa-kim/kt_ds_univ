@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.hello.forum.member.service.MemberService;
 import com.hello.forum.member.vo.MemberVO;
 import com.hello.forum.utils.AjaxResponse;
+import com.hello.forum.utils.StringUtils;
 import com.hello.forum.utils.ValidationUtils;
 import com.hello.forum.utils.Validator;
 import com.hello.forum.utils.Validator.Type;
@@ -61,64 +62,69 @@ public class MemberController {
 	
 	@PostMapping("/member/regist")
 	public String doRegistMember(MemberVO memberVO, Model model) {
-		
+
 		boolean isNotEmptyEmail = ValidationUtils.notEmpty(memberVO.getEmail());
 		boolean isEmailFormat = ValidationUtils.email(memberVO.getEmail());
 		boolean isNotEmptyName = ValidationUtils.notEmpty(memberVO.getName());
-		boolean isNotEmptyPassword = ValidationUtils.notEmpty(memberVO.getPassword());
-		boolean isNotEmptyConfirmPassword = ValidationUtils.notEmpty(memberVO.getConfirmPassword());
-		boolean isPasswordFormat = ValidationUtils.size(memberVO.getPassword(), 10);
-		boolean isPasswordEqual = ValidationUtils.isEquals(memberVO.getPassword(), memberVO.getConfirmPassword());
-		
-		if(!isNotEmptyEmail) {
-			model.addAttribute("errorMassage", "이메일은 필수 입력 값입니다.");
+		boolean isNotEmptyPassword = ValidationUtils
+				.notEmpty(memberVO.getPassword());
+		boolean isEnoughSize = ValidationUtils.size(memberVO.getPassword(), 10);
+		boolean isNotEmptyConfrimPassword = ValidationUtils
+				.notEmpty(memberVO.getConfirmPassword());
+
+		boolean isEqualsPassword = ValidationUtils.isEquals(
+				memberVO.getPassword(), memberVO.getConfirmPassword());
+
+		boolean isPasswordFormat = StringUtils.correctPasswordFormat(memberVO.getPassword());
+
+		if (!isNotEmptyEmail) {
+			model.addAttribute("errorMessage", "이메일을 입력해주세요.");
 			model.addAttribute("memberVO", memberVO);
 			return "member/memberregist";
 		}
-		
-		if(!isEmailFormat) {
-			model.addAttribute("errorMassage", "이메일을 올바른 형태로 작성해주세요.");
+		if (!isEmailFormat) {
+			model.addAttribute("errorMessage", "이메일 형태로 입력해주세요.");
 			model.addAttribute("memberVO", memberVO);
 			return "member/memberregist";
 		}
-		
-		if(!isNotEmptyName) {
-			model.addAttribute("errorMassage", "이름은 필수 입력 값입니다.");
+		if (!isNotEmptyName) {
+			model.addAttribute("errorMessage", "이름을 입력해주세요.");
 			model.addAttribute("memberVO", memberVO);
 			return "member/memberregist";
 		}
-		
-		if(!isNotEmptyPassword) {
-			model.addAttribute("errorMassage", "비밀번호는 필수 입력 값입니다.");
+		if (!isNotEmptyPassword) {
+			model.addAttribute("errorMessage", "비밀번호를 입력해주세요.");
 			model.addAttribute("memberVO", memberVO);
 			return "member/memberregist";
 		}
-		
-		if(!isPasswordFormat) {
-			model.addAttribute("errorMassage", "비밀번호는 최소 10자리 이상 입력해주세요.");
+		if (!isEnoughSize) {
+			model.addAttribute("errorMessage", "비밀번호는 최소 10자리 이상 입력해주세요.");
+			model.addAttribute("memberVO", memberVO);
+			return "member/memberregist";
+		}
+		if (!isPasswordFormat) {
+			model.addAttribute("errorMessage",
+					"비밀번호는 영어 대/소문자, 숫자를 포함하여 10자리 이상을 입력해주세요.");
+			model.addAttribute("memberVO", memberVO);
+			return "member/memberregist";
+		}
+		if (!isNotEmptyConfrimPassword) {
+			model.addAttribute("errorMessage", "비밀번호 확인을 입력해주세요.");
+			model.addAttribute("memberVO", memberVO);
+			return "member/memberregist";
+		}
+		if (!isEqualsPassword) {
+			model.addAttribute("errorMessage", "비밀번호가 일치하지 않습니다.");
 			model.addAttribute("memberVO", memberVO);
 			return "member/memberregist";
 		}
 
-		if(!isNotEmptyConfirmPassword) {
-			model.addAttribute("errorMassage", "비밀번호 확인은 필수 입력 값입니다.");
-			model.addAttribute("memberVO", memberVO);
-			return "member/memberregist";
-		}
-		
-		if(!isPasswordEqual) {
-			model.addAttribute("errorMassage", "비밀번호와 일치하지 않습니다.");
-			model.addAttribute("memberVO", memberVO);
-			return "member/memberregist";
-		}
-		
 		boolean isSuccess = this.memberService.createNewMember(memberVO);
+
 		if (isSuccess) {
-			logger.info("회원가입 성공");
 			return "redirect:/member/login";
-		}else {
-			logger.info("회원가입 실패");
 		}
+
 		model.addAttribute("memberVO", memberVO);
 		return "member/memberregist";
 	}
