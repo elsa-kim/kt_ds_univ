@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.context.request.SessionScope;
 
 import com.hello.forum.member.service.MemberService;
 import com.hello.forum.member.vo.MemberVO;
@@ -154,6 +155,7 @@ public class MemberController {
 		
 		MemberVO member = this.memberService.getMember(memberVO);
 		// 로그인이 정상적으로 이루어졌다면 세션을 생성한다.
+		// ${SessionScope._LOGIN_USER_.adminYn eq 'Y'}
 		session.setAttribute("_LOGIN_USER_", member);
 		// request 없을 때 세션 유지되는 시간(초 단위), default: 30min, 0일 경우 계속 유지
 //		session.setMaxInactiveInterval(30);

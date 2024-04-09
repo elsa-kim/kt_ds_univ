@@ -8,8 +8,15 @@ public class MemberVO {
 	private String confirmPassword;
 	private String delYn;
 	private String salt;
+	private String adminYn;
 	
 	
+	public String getAdminYn() {
+		return adminYn;
+	}
+	public void setAdminYn(String adminYn) {
+		this.adminYn = adminYn;
+	}
 	public String getSalt() {
 		return salt;
 	}

@@ -71,4 +71,8 @@ public interface BoardDao {
 	 * @return 삭제 영향을 받은 데이터의 건수
 	 */
 	public int deleteOneBoard(int id);
+
+	public List<BoardVO> selectManyBoard(List<Integer> deleteItems);
+
+	public int deleteManyBoard(List<Integer> deleteItems);
 }

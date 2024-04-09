@@ -12,7 +12,7 @@ pageEncoding="UTF-8"%>
     div.grid{
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: 28px 28px 1fr 28px 28px;
+        grid-template-rows: 28px 1fr auto 28px;
         row-gap: 10px;
     }
    
@@ -20,8 +20,9 @@ pageEncoding="UTF-8"%>
 <script type="text/javascript" src="/js/boardlist.js"></script>
 </head>
 <body>
+    <jsp:include page="../layout/layout.jsp" />
     <div class="grid">
-        <jsp:include page="../member/membermenu.jsp"></jsp:include>
+       
         <div class="right-align">
             총 ${boardList.boardCnt} 건의 게시글이 검색되었습니다.
 
@@ -31,6 +32,9 @@ pageEncoding="UTF-8"%>
                 * : 전체 사이즈 중 지정해주고 남는거 다 할당해라 
             -->
             <colgroup>
+                <c:if test="${sessionScope._LOGIN_USER_.adminYn eq 'Y'}">
+                    <col width="40px"/>
+                </c:if>
                 <col width="80px"/>
                 <col width="*"/>
                 <col width="150px"/>
@@ -40,6 +44,11 @@ pageEncoding="UTF-8"%>
             </colgroup>
             <thead>
                 <tr>
+                    <c:if test="${sessionScope._LOGIN_USER_.adminYn eq 'Y'}">
+                        <th>
+                            <input type="checkbox" id="checked-all" data-target-class="target-board-id"/>
+                        </th>
+                    </c:if>
                     <th>번호</th>
                     <th>제목</th>
                     <th>작성자 이름</th>
@@ -62,6 +71,11 @@ pageEncoding="UTF-8"%>
 		                <%-- 내용을 반복하면서 보여주고 --%>
 			            <c:forEach items="${boardList.boardList}" var="board">
 			                <tr>
+                                <c:if test="${sessionScope._LOGIN_USER_.adminYn eq 'Y'}">
+                                    <td>
+                                        <input type="checkbox" class="target-board-id" name="targetBoardId" value="${board.id}">
+                                    </td>
+                                </c:if>
 			                    <td class="center-align">${board.id}</td>
 			                    <td  class="left-align ">
                                     <a href="/board/view?id=${board.id}" class="ellipsis">${board.subject}</a>
@@ -130,12 +144,18 @@ pageEncoding="UTF-8"%>
         <!-- Paginator 끝 -->
         <c:if test="${not empty sessionScope._LOGIN_USER_}">
             <div class="right-align">
-                <a href="/board/excel/download2">엑셀 다운로드</a>
+                <c:if test="${sessionScope._LOGIN_USER_.adminYn eq 'Y'}">
+                    <a href="/board/excel/download2">엑셀 다운로드</a>
+                </c:if>
                 <a href="/board/write">게시글 등록</a>
-                <a id="uploadExcelfile" href="javascript:void(0);">게시글 일괄 등록</a>
-                <input type="file" id="excelfile" style="display: none;" />
+                <c:if test="${sessionScope._LOGIN_USER_.adminYn eq 'Y'}">
+                    <a id="deleteMassiveBoard" href="javascript:void(0);">일괄 삭제</a>
+                    <a id="uploadExcelfile" href="javascript:void(0);">게시글 일괄 등록</a>
+                    <input type="file" id="excelfile" style="display: none;" />
+                </c:if>
             </div>
         </c:if>
     </div>
+    <jsp:include page="../layout/layout_close.jsp" />
 </body>
 </html>

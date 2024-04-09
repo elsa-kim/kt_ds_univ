@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hello.forum.menu.dao.MenuDao">
+
+	<select id="getAllMenu" resultType="com.hello.forum.menu.vo.MenuVO">
+		 SELECT LEVEL  
+		 	 , M.MENU_ID
+		 	 , M.MENU_NAME
+		 	 , M.ROLE
+		 	 , M.MENU_URL
+		 	 , M.DEL_YN
+		 	 , M.PARENT_MENU_ID
+		   FROM MENU M
+		  START WITH PARENT_MENU_ID IS NULL
+		CONNECT BY PRIOR MENU_ID = PARENT_MENU_ID
+	</select>
+
+</mapper>

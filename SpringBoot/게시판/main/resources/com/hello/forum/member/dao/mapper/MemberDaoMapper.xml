@@ -34,6 +34,7 @@
 		     , PASSWORD
 		     , DEL_YN
 		     , SALT
+		     , ADMIN_YN
 		  FROM MEMBERS
 		 WHERE EMAIL = #{email}
 		   AND PASSWORD = #{password}
