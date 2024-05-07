@@ -16,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +33,7 @@ import com.hello.forum.bbs.vo.BoardListVO;
 import com.hello.forum.bbs.vo.BoardVO;
 import com.hello.forum.bbs.vo.SearchBoardVO;
 import com.hello.forum.beans.FileHandler;
+import com.hello.forum.beans.security.SecurityUser;
 import com.hello.forum.exceptions.MakeXlsxFileException;
 import com.hello.forum.exceptions.PageNotFoundException;
 import com.hello.forum.member.vo.MemberVO;
@@ -57,18 +60,6 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
-//	@GetMapping("/board/list")
-//	public String viewBoardListPage(Model model) {
-//		
-//		// 1. 게시글의 건수와 게시글의 목록을 조회해서
-//		BoardListVO boardListVO = this.boardService.getAllBoard();
-//		
-//		// 2. /WEB-INF/views/board/boardlist.jsp 페이지에게 게시글의 건수와 게시글의 목록을 전달하고
-//		model.addAttribute("boardList", boardListVO);
-//		
-//		// 3. 화면을 보여준다.
-//		return "board/boardlist";
-//	}
 	
 	@GetMapping("/board/search")
 	public String viewBoardListPage(Model model, SearchBoardVO searchBoardVO) {
@@ -110,47 +101,14 @@ public class BoardController {
 	 * @return
 	 */
 	@PostMapping("/board/write")
-	public String doBoardWrite(/*Spring이 알맞은 파라미터를 자동으로 보내준다. Servlet like : HttpServletRequest request*/
-			/*컨트롤러로 전송된 파라미터를 하나씩 받아오는 방법, @RequestParam으로 정의된 파라미터는 필수 파라미터(필수로 데이터 보내야함)
-			 * 컨트롤러로 전송되는 파라미터의 개수가 몇개 없을 때, 예:3개 미만*/ 
-//			@RequestParam String subject,
-//			@RequestParam String email,
-//			@RequestParam String content
-			/*Command Object
-			 * 파라미터로 전송된 이름과 BoardVO의 멤버변수 이름과 같은 것이 있다면
-			 * 해당 멤버변수에 값을 할당해준다(setter이용)*/
-//			@Valid/*@Not Empty, @Email, @Size, @Min, @Max 등 이런것들을 검사하도록 지시.*/ 
+	public String doBoardWrite( 
 			BoardVO boardVO,
-			/*@Valid에 의해 실행된 파라미터 검사(@Not Empty, @Email, @Size, @Min, @Max 등)의 결과*/
-//			BindingResult bindingResult,
 			@RequestParam MultipartFile file,
-			@SessionAttribute("_LOGIN_USER_") MemberVO memberVO,
+			Authentication authentication, // Authentication => Security Context에 저장되어 있는 인증 정보
 			Model model
 			) {
 		logger.info("글 등록 처리를 해야합니다.");
-		/*
-		 * Servlet Like
-		 * HttpServletRequest를 이용
-		 * - interceptor에서 이용
-		 * - Filter에서 이용
-		 */
-//		String subject = request.getParameter("subject");
-//		String email = request.getParameter("email");
-//		String content = request.getParameter("content");
-//		
-//		System.out.println("제목: " + subject);
-//		System.out.println("이메일: " + email);
-//		System.out.println("내용: " + content);
 		
-//		System.out.println("제목: "+boardVO.getSubject());
-//		System.out.println("이메일: "+boardVO.getEmail());
-//		System.out.println("내용: "+boardVO.getContent());
-		
-		// 검사 내용 확인
-//		if (bindingResult.hasErrors()) {
-//			model.addAttribute("boardVO", boardVO);
-//			return "board/boardwrite";
-//		}
 		
 		// 수동 검사 시작
 		// 제목 검사
@@ -172,7 +130,7 @@ public class BoardController {
 		}
 		
 		// 세션에 있는 이메일을 넣어줌
-		boardVO.setEmail(memberVO.getEmail());
+		boardVO.setEmail(authentication.getName());
 		
 		boolean isCreateSuccess = this.boardService.createNewBoard(boardVO, file);
 		if (isCreateSuccess) {
@@ -181,12 +139,6 @@ public class BoardController {
 			logger.info("글 등록 실패");
 		}
 		
-		// board/boardlist 페이지를 보여주는 URL로 이동 처리
-		// redirect:/board/search
-		// 스프링은 브라우저에게 /board/search로 이동하라는 명령을 전송
-		// 명령을 받은 브라우저는 /board/search로 URL을 이동시킨다.
-		// /board/search로 브라우저가 요청을 하게되면
-		// 스프링 컨트롤러에서 /board/search URL에 알맞은 처리를 진행한다.
 		return "redirect:/board/search";
 	}
 	
@@ -211,11 +163,14 @@ public class BoardController {
 	
 	// {} : url에 변수 사용
 	@GetMapping("/board/modify/{id}") // /board/modify/1 <-- id 변수의 값은 1
-	public String viewBoardModifyPage(@PathVariable int id, Model model, @SessionAttribute("_LOGIN_USER_") MemberVO memberVO) {
+	public String viewBoardModifyPage(@PathVariable int id, Model model, Authentication authentication) {
 		// 1. 전달받은 id의 값으로 게시글을 조회한다.
 		BoardVO boardVO = this.boardService.getOneBoard(id, false);
 		
-		if(!memberVO.getEmail().equals(boardVO.getEmail()) && memberVO.getAdminYn().equals("N") ) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		MemberVO memberVO = ((SecurityUser) userDetails).getMemberVO();
+		
+		if(!authentication.getName().equals(boardVO.getEmail()) && memberVO.getAdminYn().equals("N") ) {
 			throw new PageNotFoundException();
 		}
 		
@@ -233,10 +188,13 @@ public class BoardController {
 	 * @return
 	 */
 	@PostMapping("/board/modify/{id}")
-	public String doBoardModify(@PathVariable int id, BoardVO boardVO, @RequestParam MultipartFile file, @SessionAttribute("_LOGIN_USER_") MemberVO memberVO, Model model) {
+	public String doBoardModify(@PathVariable int id, BoardVO boardVO, @RequestParam MultipartFile file, Authentication authentication, Model model) {
+		
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		MemberVO memberVO = ((SecurityUser) userDetails).getMemberVO();
 		
 		BoardVO originalBoardVO = this.boardService.getOneBoard(id, false);
-		if (!originalBoardVO.getEmail().equals(memberVO.getEmail()) && memberVO.getAdminYn().equals("N") ) {
+		if (!originalBoardVO.getEmail().equals(authentication.getName()) && memberVO.getAdminYn().equals("N") ) {
 			throw new PageNotFoundException();
 		}
 		
@@ -293,10 +251,13 @@ public class BoardController {
 	 * 
 	 */
 	@GetMapping("/board/delete/{id}")
-	public String doDeleteBoard(@PathVariable int id, @SessionAttribute("_LOGIN_USER_") MemberVO memberVO) {
+	public String doDeleteBoard(@PathVariable int id, Authentication authentication) {
+		
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		MemberVO memberVO = ((SecurityUser) userDetails).getMemberVO();
 		
 		BoardVO originalBoardVO = this.boardService.getOneBoard(id, false);
-		if (!originalBoardVO.getEmail().equals(memberVO.getEmail()) && memberVO.getAdminYn().equals("N") ) {
+		if (!originalBoardVO.getEmail().equals(authentication.getName()) && memberVO.getAdminYn().equals("N") ) {
 			throw new PageNotFoundException();
 		}
 		
@@ -313,7 +274,11 @@ public class BoardController {
 	
 	@ResponseBody
 	@PostMapping("/ajax/board/delete/massive")
-	public AjaxResponse doDeleteMassive(@RequestParam("deleteItems[]") List<Integer> deleteItems, @SessionAttribute("_LOGIN_USER_") MemberVO memberVO) {
+	public AjaxResponse doDeleteMassive(@RequestParam("deleteItems[]") List<Integer> deleteItems, Authentication authentication) {
+		
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		MemberVO memberVO = ((SecurityUser) userDetails).getMemberVO();
+		
 		if(memberVO.getAdminYn().equals("N")) {
 			throw new PageNotFoundException();
 		}

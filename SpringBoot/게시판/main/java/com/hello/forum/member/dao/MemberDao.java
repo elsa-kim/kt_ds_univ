@@ -21,20 +21,15 @@ public interface MemberDao {
 	 */
 	public int createNewMember(MemberVO memberVO);
 
-	/**
-	 * 로그인시 비밀번호 암호화를 위해 기존에 발급했던 salt값을 조회
-	 * @param email 조회할 이메일
-	 * @return 회원가입시 발급받은 salt값
-	 */
-	public String selectSalt(String email);
 
-	/**
-	 * 이메일과 비밀번호로 회원정보를 조회
-	 * @param memberVO 이메일과 비밀번호
-	 * @return 이메일과 비밀번호가 일치하는 회원의 정보
-	 */
-	public MemberVO selectMemberByEmailAndPassword(MemberVO memberVO);
 
 	public int deleteMemberByEmail(String email);
+	
+	/**
+	 * Spring Security에서 사용할 회원 정보 조회 기능
+	 * @param email 로그인 이메일
+	 * @return 로그인 이메일과 일치하는 사용자 정보
+	 */
+	public MemberVO getMemberByEmail(String email);
 
 }

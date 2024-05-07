@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
 		return "error/404";
 	}
 	
-	@ExceptionHandler({FileNotExistsException.class, MakeXlsxFileException.class, AlreadyUseException.class, UserIdentifyNotMatchException.class, RuntimeException.class})
+	@ExceptionHandler({FileNotExistsException.class, MakeXlsxFileException.class, AlreadyUseException.class, RuntimeException.class})
 	public Object viewErrorPage(RuntimeException re, Model model) {
 		
 		logger.error(re.getMessage(), re);
