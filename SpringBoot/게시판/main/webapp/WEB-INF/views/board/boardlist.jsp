@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,9 +34,9 @@ pageEncoding="UTF-8"%>
                 * : 전체 사이즈 중 지정해주고 남는거 다 할당해라 
             -->
             <colgroup>
-                <c:if test="${sessionScope._LOGIN_USER_.adminYn eq 'Y'}">
+               <sec:authorize access="hasRole('ADMIN')">
                     <col width="40px"/>
-                </c:if>
+                </sec:authorize>
                 <col width="80px"/>
                 <col width="*"/>
                 <col width="150px"/>
@@ -44,11 +46,12 @@ pageEncoding="UTF-8"%>
             </colgroup>
             <thead>
                 <tr>
-                    <c:if test="${sessionScope._LOGIN_USER_.adminYn eq 'Y'}">
+                    <sec:authorize access="hasRole('ADMIN')">
                         <th>
                             <input type="checkbox" id="checked-all" data-target-class="target-board-id"/>
                         </th>
-                    </c:if>
+                    </sec:authorize>
+                    
                     <th>번호</th>
                     <th>제목</th>
                     <th>작성자 이름</th>
@@ -71,11 +74,11 @@ pageEncoding="UTF-8"%>
 		                <%-- 내용을 반복하면서 보여주고 --%>
 			            <c:forEach items="${boardList.boardList}" var="board">
 			                <tr>
-                                <c:if test="${sessionScope._LOGIN_USER_.adminYn eq 'Y'}">
+                                <sec:authorize access="hasRole('ADMIN')">
                                     <td>
                                         <input type="checkbox" class="target-board-id" name="targetBoardId" value="${board.id}">
                                     </td>
-                                </c:if>
+                                </sec:authorize>
 			                    <td class="center-align">${board.id}</td>
 			                    <td  class="left-align ">
                                     <a href="/board/view?id=${board.id}" class="ellipsis">${board.subject}</a>
@@ -142,19 +145,20 @@ pageEncoding="UTF-8"%>
             </form>
         </div>
         <!-- Paginator 끝 -->
-        <c:if test="${not empty sessionScope._LOGIN_USER_}">
+        <!-- Spring security Context에 인증정보(Authenticate 객체)가 있는지 확인 -->
+        <!-- Spring Security로 로그인을 했다면. -->
+        <sec:authorize access="isAuthenticated()">
             <div class="right-align">
-                <c:if test="${sessionScope._LOGIN_USER_.adminYn eq 'Y'}">
-                    <a href="/board/excel/download2">엑셀 다운로드</a>
-                </c:if>
                 <a href="/board/write">게시글 등록</a>
-                <c:if test="${sessionScope._LOGIN_USER_.adminYn eq 'Y'}">
-                    <a id="deleteMassiveBoard" href="javascript:void(0);">일괄 삭제</a>
-                    <a id="uploadExcelfile" href="javascript:void(0);">게시글 일괄 등록</a>
-                    <input type="file" id="excelfile" style="display: none;" />
-                </c:if>
+                <!-- ROLE_ADMIN 권한을 가진 경우만 아래 메뉴 노출 -->
+                <sec:authorize access="hasRole('ADMIN')">
+                <a href="/board/excel/download2">엑셀 다운로드</a>
+                <a id="deleteMassiveBoard" href="javascript:void(0);">일괄 삭제</a>
+                <a id="uploadExcelfile" href="javascript:void(0);">게시글 일괄 등록</a>
+                <input type="file" id="excelfile" style="display: none;" />
+                </sec:authorize>
             </div>
-        </c:if>
+        </sec:authorize>
     </div>
     <jsp:include page="../layout/layout_close.jsp" />
 </body>

@@ -109,7 +109,7 @@ $().ready(function () {
   };
 
   var loadReplies = function (boardId, pageNo) {
-
+    
     var isNotUndefinedPageNo = pageNo !== undefined
     var params = {pageNo: -1}
     if (isNotUndefinedPageNo){
@@ -118,7 +118,7 @@ $().ready(function () {
 
     $.get("/ajax/board/reply/" + boardId, params, function (response) {
       if(!isNotUndefinedPageNo){
-        //$(".reply-items").html("");
+        // $(".reply-items").html("");
         pageNumber = response.data.paginate.pageCount - 1;
       }
 
@@ -180,7 +180,9 @@ $().ready(function () {
         var replyDom = $("<div></div>");
         replyDom.addClass("reply");
         replyDom.data("reply-id", reply.replyId);
-        replyDom.css({ "padding-left": (reply.level - 1) * 40 + "px" });
+        replyDom.attr("data-reply-id", reply.replyId);
+
+        replyDom.css({ "padding-left": (reply.level === 1 ? 0 : 1) * 40 + "px" });
 
           if(reply.delYn==='Y'){
               replyDom.css({
@@ -233,11 +235,13 @@ $().ready(function () {
               replyDom.append(contentDom);
       
               var loginEmail = $("#login-email").text();
+              var roleAdmin = $("#role-admin");
+              var isAdmin = roleAdmin && roleAdmin.length > 0
       
               // <div></div>
               var controlDom = $("<div></div>");
       
-              if (reply.email === loginEmail) {
+              if (reply.email === loginEmail || isAdmin) {
                 // <span class="modify-reply">수정</span>
                 var modifyReplyDom = $("<span></span>");
                 modifyReplyDom.addClass("modify-reply");

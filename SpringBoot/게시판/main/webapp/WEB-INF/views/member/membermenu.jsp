@@ -1,24 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>    
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <div class="right-align">
     <ul class="horizontal-list">
-        <c:choose>
-            <c:when test="${empty sessionScope._LOGIN_USER_}">
+        <sec:authorize access="!isAuthenticated()">
                 <li>
                     <a href="/member/regist">회원가입</a>
                 </li>
                 <li>
                     <a href="/member/login">로그인</a>
                 </li>
-            </c:when>
-            <c:otherwise>
+           </sec:authorize>
+           <sec:authorize access="isAuthenticated()">
                 <li style="margin-right: 1rem">
-                    <c:if test="${sessionScope._LOGIN_USER_.adminYn eq 'Y'}">
-                        <span>(Super Admin)</span>
-                    </c:if>
-                    ${sessionScope._LOGIN_USER_.name}
-                    (<span id="login-email">${sessionScope._LOGIN_USER_.email}</span>)
+                    <sec:authorize access="hasRole('ADMIN')">
+                        <span id="role-admin">(Super Admin)</span>
+                    </sec:authorize>
+                    <sec:authentication property="principal.memberVO.name"/>
+                    (<span id="login-email"><sec:authentication property="principal.memberVO.email"/></span>)
                 </li>
                 <li>
                     <a href="/member/logout">로그아웃</a>
@@ -26,7 +26,6 @@
                 <li>
                     <a class="deleteMe" href="javascript:void(0);" >탈퇴</a>
                 </li>
-            </c:otherwise>
-        </c:choose>
+           </sec:authorize>
     </ul>
 </div>

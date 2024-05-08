@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,6 +46,7 @@ public class ReplyController {
 	
 	@GetMapping("/ajax/board/reply/delete/{replyId}")
 	public AjaxResponse doDeleteReplies(@PathVariable int replyId, Authentication authentication){
+		
 		boolean isSuccess = replyService.deleteOneReply(replyId, authentication.getName());
 		return new AjaxResponse().append("result", isSuccess);
 	}

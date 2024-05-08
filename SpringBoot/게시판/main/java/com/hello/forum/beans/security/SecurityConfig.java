@@ -5,9 +5,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.hello.forum.beans.security.handler.LoginFailureHandler;
 import com.hello.forum.beans.security.handler.LoginSuccessHandler;
@@ -45,6 +47,27 @@ public class SecurityConfig {
 	}
 	
 	/**
+	 * Spring Security가 절대 개입하지 말아야하는 URL들을 정의
+	 * 아래 URL에서 보여지는 페이지 내부에서는 Security Taglib을 사용할 수 없다.
+	 * 인증정보도 사용할 수 없게 됨
+	 * @return
+	 */
+	@Bean
+	WebSecurityCustomizer webSecurityCustomizer() {
+		return (web) -> web.ignoring()
+							.requestMatchers(AntPathRequestMatcher.antMatcher("/WEB-INF/views/**"))
+							.requestMatchers(AntPathRequestMatcher.antMatcher("/member/login"))
+							.requestMatchers(AntPathRequestMatcher.antMatcher("/member/regist/**"))
+							.requestMatchers(AntPathRequestMatcher.antMatcher("/error/**"))
+							.requestMatchers(AntPathRequestMatcher.antMatcher("/favicon/ico"))
+							.requestMatchers(AntPathRequestMatcher.antMatcher("/member/**-delete-me"))
+							.requestMatchers(AntPathRequestMatcher.antMatcher("/js/**"))
+							.requestMatchers(AntPathRequestMatcher.antMatcher("/css/**"));
+	}
+	
+	
+	
+	/**
 	 * Spring Security Filter가 동작해야할 방식(순서)를 정의
 	 * 
 	 * @param http HTTPSecurity 필터 전략 
@@ -54,27 +77,39 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
+		http.authorizeHttpRequests(httpRequest->
+				httpRequest.requestMatchers(AntPathRequestMatcher.antMatcher("/board/search")).permitAll() // /board/search는 Security 인증 여부와 관계없이 접근 허용한다. 
+							.requestMatchers(AntPathRequestMatcher.antMatcher("/ajax/menu/list")).permitAll() // /ajax/menu/list는 Security 인증 여부와 관계없이 접근 허용한다. 
+							.requestMatchers(AntPathRequestMatcher.antMatcher("/board/excel/download2")).hasRole("ADMIN")
+							.requestMatchers(AntPathRequestMatcher.antMatcher("/ajax/board/delete/massive")).hasRole("ADMIN")
+							.requestMatchers(AntPathRequestMatcher.antMatcher("/ajax/board/excel/write")).hasRole("ADMIN")
+							// 그 외 모든 URL은 인증이 필요하며, 인증이 안되어있다면 로그인 페이지로 이동시킨다.
+							.anyRequest().authenticated());
+		
 		// 로그인(필터) 정책 설정.
 		
 		// 우리 애플리케이션은 Form 기반으로 로그인을 하며
 		// 로그인이 완료되면, /board/search로 이동을 해야한다.
 		// 로그인 페이지 변경
 		http.formLogin(formLogin -> formLogin
-											// Spring Security 인증이 성공할 경우, LoginSuccessHandler가 동작되도록 설정
-											 .successHandler(new LoginSuccessHandler())
-											// Spring Security 인증이 실패할 경우 LoginFailureHandler가 동작되도록 설정
-											 .failureHandler(new LoginFailureHandler())
-											// Spring Security Login URL 변경
-											 .loginPage("/member/login")
-											 // Spring Security Login 처리 URL 변경
-											 // SecurityAuthenticationProvider 실행 경로 지정
-											 .loginProcessingUrl("/member/login-proc")
-											 // 로그인ID가 전달될 파라미터 이름
-											 .usernameParameter("email")
-											 // 로그인PW가 전달될 파라미터 이름
-											 .passwordParameter("password"));
+							// Spring Security 인증이 성공할 경우, LoginSuccessHandler가 동작되도록 설정
+							 .successHandler(new LoginSuccessHandler())
+							// Spring Security 인증이 실패할 경우 LoginFailureHandler가 동작되도록 설정
+							 .failureHandler(new LoginFailureHandler())
+							// Spring Security Login URL 변경
+							 .loginPage("/member/login")
+							 // Spring Security Login 처리 URL 변경
+							 // SecurityAuthenticationProvider 실행 경로 지정
+							 .loginProcessingUrl("/member/login-proc")
+							 // 로그인ID가 전달될 파라미터 이름
+							 .usernameParameter("email")
+							 // 로그인PW가 전달될 파라미터 이름
+							 .passwordParameter("password"));
 		
 		// CSRF 방어로직 무효화
+		// CSRF 기능을 일시적으로 해제한다.
+		// 현재 시점에서 아래 코드가 없을 경우,
+		// HTTP POST, PUT, DELETE 등은 정상 동작하지 않는다.
 		http.csrf(csrf->csrf.disable());
 		
 		return http.build();

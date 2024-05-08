@@ -11,7 +11,7 @@
     /* div인데 클래스가 grid인 것(띄어쓰기 없음) */
     div.grid{
         display: grid;
-        grid-template-columns: 80px 1fr;
+        grid-template-columns: 110px 1fr;
         grid-template-rows: 28px 28px 320px 1fr;
         row-gap: 10px;
     }
@@ -27,7 +27,7 @@
 	    </dialog>
     </c:if>
 
-    <jsp:include page="../member/membermenu.jsp"></jsp:include>
+    <jsp:include page="../layout/layout.jsp" />
     
     <h1>게시글 작성</h1>
     <form action="/board/write" method="post" enctype="multipart/form-data">
@@ -49,5 +49,6 @@
             </div>
         </div>
     </form>
+    <jsp:include page="../layout/layout_close.jsp" />
 </body>
 </html>

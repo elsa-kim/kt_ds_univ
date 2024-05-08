@@ -10,6 +10,7 @@ import com.hello.forum.bbs.dao.ReplyDao;
 import com.hello.forum.bbs.vo.ReplyVO;
 import com.hello.forum.bbs.vo.SearchReplyVO;
 import com.hello.forum.exceptions.PageNotFoundException;
+import com.hello.forum.utils.AuthUtil;
 
 @Service
 public class ReplyServiceImpl implements ReplyService {
@@ -33,7 +34,7 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	public boolean deleteOneReply(int replyId, String email) {
 		ReplyVO replyVO = replyDao.getOneReply(replyId);
-		if(!email.equals(replyVO.getEmail())) {
+		if(!email.equals(replyVO.getEmail()) && !AuthUtil.hasRole("ADMIN")) {
 			throw new PageNotFoundException();
 		}
 		return replyDao.deleteOneReply(replyId) > 0;
@@ -43,7 +44,7 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	public boolean modifyOneReply(ReplyVO replyVO) {
 		ReplyVO originReplyVO = replyDao.getOneReply(replyVO.getReplyId());
-		if(!replyVO.getEmail().equals(originReplyVO.getEmail())) {
+		if(!replyVO.getEmail().equals(originReplyVO.getEmail()) && !AuthUtil.hasRole("ADMIN")) {
 			throw new PageNotFoundException();
 		}
 		return replyDao.modifyOneReply(replyVO) > 0;
