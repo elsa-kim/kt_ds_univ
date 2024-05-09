@@ -27,6 +27,9 @@ mybatis:
     
 # 사용자 설정
 app:
+    jwt:
+        issuer: ksh96611@naver.com
+        secret-key: spring-security-key-random-token-key
     authentication:
         check-url-pattern: /**
         ignore-url-patterns:

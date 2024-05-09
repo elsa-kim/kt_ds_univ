@@ -7,6 +7,7 @@ pageEncoding="UTF-8"%>
 <html>
 <head>
 <meta charset="UTF-8">
+<sec:csrfMetaTags />
 <title>게시글 목록</title>
 <jsp:include page="../commonheader.jsp"></jsp:include>
 <style type="text/css">

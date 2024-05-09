@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<sec:csrfMetaTags />
 <title>게시글 내용</title>
 <jsp:include page="../commonheader.jsp"></jsp:include>
 <style type="text/css">

@@ -1,5 +1,7 @@
 package com.hello.forum.beans.security;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,10 +11,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 import com.hello.forum.beans.security.handler.LoginFailureHandler;
 import com.hello.forum.beans.security.handler.LoginSuccessHandler;
+import com.hello.forum.beans.security.jwt.JwtAuthenticationFilter;
 import com.hello.forum.member.dao.MemberDao;
 
 /**
@@ -27,6 +33,9 @@ public class SecurityConfig {
 
 	@Autowired
 	private MemberDao memberDao;
+	
+	@Autowired
+	private JwtAuthenticationFilter jwtAuthenticationFilter;
 	
 	/**
 	 * 사용자 세부정보 서비스에 대한 Spring Bean 생성
@@ -56,8 +65,9 @@ public class SecurityConfig {
 	WebSecurityCustomizer webSecurityCustomizer() {
 		return (web) -> web.ignoring()
 							.requestMatchers(AntPathRequestMatcher.antMatcher("/WEB-INF/views/**"))
-							.requestMatchers(AntPathRequestMatcher.antMatcher("/member/login"))
-							.requestMatchers(AntPathRequestMatcher.antMatcher("/member/regist/**"))
+							// CSRF 적용을 위해 Security 설정 필요
+//							.requestMatchers(AntPathRequestMatcher.antMatcher("/member/login"))
+//							.requestMatchers(AntPathRequestMatcher.antMatcher("/member/regist/**"))
 							.requestMatchers(AntPathRequestMatcher.antMatcher("/error/**"))
 							.requestMatchers(AntPathRequestMatcher.antMatcher("/favicon/ico"))
 							.requestMatchers(AntPathRequestMatcher.antMatcher("/member/**-delete-me"))
@@ -77,9 +87,30 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
+//		// 8080번 포트에서 발생한 요청을 허용하는 CORS 로직(다른 포트 서버에서 작성하는 코드)
+//				http.cors(cors -> {
+//					CorsConfigurationSource source = (request) -> {
+//						CorsConfiguration config = new CorsConfiguration();
+//						
+//						// CORS 요청을 허용할 주소
+//						config.setAllowedOrigins(List.of("http://localhost:8080"));
+//						
+//						// CORS 요청을 허용할 HttpMethod
+//						config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+//						
+//						return config;
+//					};
+//					
+//					cors.configurationSource(source);
+//				});
+		
 		http.authorizeHttpRequests(httpRequest->
 				httpRequest.requestMatchers(AntPathRequestMatcher.antMatcher("/board/search")).permitAll() // /board/search는 Security 인증 여부와 관계없이 접근 허용한다. 
 							.requestMatchers(AntPathRequestMatcher.antMatcher("/ajax/menu/list")).permitAll() // /ajax/menu/list는 Security 인증 여부와 관계없이 접근 허용한다. 
+							.requestMatchers(AntPathRequestMatcher.antMatcher("/member/login")).permitAll()
+							.requestMatchers(AntPathRequestMatcher.antMatcher("/ajax/member/regist/available")).permitAll()
+							.requestMatchers(AntPathRequestMatcher.antMatcher("/member/regist/**")).permitAll()
+							.requestMatchers(AntPathRequestMatcher.antMatcher("/auth/token")).permitAll()
 							.requestMatchers(AntPathRequestMatcher.antMatcher("/board/excel/download2")).hasRole("ADMIN")
 							.requestMatchers(AntPathRequestMatcher.antMatcher("/ajax/board/delete/massive")).hasRole("ADMIN")
 							.requestMatchers(AntPathRequestMatcher.antMatcher("/ajax/board/excel/write")).hasRole("ADMIN")
@@ -110,7 +141,11 @@ public class SecurityConfig {
 		// CSRF 기능을 일시적으로 해제한다.
 		// 현재 시점에서 아래 코드가 없을 경우,
 		// HTTP POST, PUT, DELETE 등은 정상 동작하지 않는다.
-		http.csrf(csrf->csrf.disable());
+//		http.csrf(csrf->csrf.disable());
+		// /auth/token URL에서는 CSRF 검사를 하지 않음
+		http.csrf(csrf -> csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/auth/token")));
+		
+		http.addFilterAfter(this.jwtAuthenticationFilter, BasicAuthenticationFilter.class);
 		
 		return http.build();
 	}
