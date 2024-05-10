@@ -32,4 +32,11 @@ public interface MemberDao {
 	 */
 	public MemberVO getMemberByEmail(String email);
 
+	/**
+	 * OAuth2로 가입한 회원들의 정보를 작성한다.
+	 * @param memberVO OAuth로 가입한 memberVO 회원 정보
+	 * @return DB에 INSERT/UPDATE 한 회원의 개수
+	 */
+	public int createOrUpdate(MemberVO memberVO);
+
 }

@@ -60,7 +60,7 @@ public class SecurityUser implements UserDetails {
 		 * memberVO.getAdminYN() == N ==> ROLE_USER
 		 */
 		String role = "ROLE_USER";
-		if (this.memberVO.getAdminYn().equals("Y")){
+		if ( this.memberVO.getAdminYn().equals("Y")){
 			role = "ROLE_ADMIN";
 		}
 		authorities.add(new SimpleGrantedAuthority(role));

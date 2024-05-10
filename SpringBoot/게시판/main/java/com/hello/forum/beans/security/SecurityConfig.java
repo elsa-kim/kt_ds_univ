@@ -19,6 +19,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import com.hello.forum.beans.security.handler.LoginFailureHandler;
 import com.hello.forum.beans.security.handler.LoginSuccessHandler;
 import com.hello.forum.beans.security.jwt.JwtAuthenticationFilter;
+import com.hello.forum.beans.security.oauth2.OAuthService;
 import com.hello.forum.member.dao.MemberDao;
 
 /**
@@ -30,6 +31,9 @@ import com.hello.forum.member.dao.MemberDao;
 @Configuration
 @EnableWebSecurity // Spring Security Filter 정책 설정을 위한 Annotation
 public class SecurityConfig {
+	
+	@Autowired
+	private OAuthService oAuthService;
 
 	@Autowired
 	private MemberDao memberDao;
@@ -103,6 +107,12 @@ public class SecurityConfig {
 //					
 //					cors.configurationSource(source);
 //				});
+		
+		// OAuth Login 및 후 처리 설정
+		http.oauth2Login(auth-> auth.defaultSuccessUrl("/board/search", true)
+									.userInfoEndpoint(user->user.userService(oAuthService))
+									.loginPage("/member/login"));
+		
 		
 		http.authorizeHttpRequests(httpRequest->
 				httpRequest.requestMatchers(AntPathRequestMatcher.antMatcher("/board/search")).permitAll() // /board/search는 Security 인증 여부와 관계없이 접근 허용한다. 

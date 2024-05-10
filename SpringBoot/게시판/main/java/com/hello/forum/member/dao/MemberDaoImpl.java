@@ -38,4 +38,9 @@ public class MemberDaoImpl extends SqlSessionDaoSupport implements MemberDao {
 		return getSqlSession().selectOne(MemberDao.NAME_SPACE+".getMemberByEmail", email);
 	}
 
+	@Override
+	public int createOrUpdate(MemberVO memberVO) {
+		return getSqlSession().update(MemberDao.NAME_SPACE+".createOrUpdate", memberVO);
+	}
+
 }

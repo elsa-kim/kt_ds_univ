@@ -21,6 +21,42 @@
         padding-left: 1rem;
         margin: 0;
     }
+    .login{
+        cursor: pointer;
+        border-radius: 5px;
+        text-align: center;
+        padding: 5px 10px;
+        font-weight: bold;
+        margin: 5px;
+        font-size: 16px;
+        border: 1px solid rgb(192, 175, 230);
+        background-color: rgb(192, 175, 230);
+        color: white;
+    }
+    .login:hover{
+        background-color: rgb(168, 154, 202);
+    }
+    .naver{
+        border: 1px solid #03c75a;
+        background-color: #03c75a;
+    }
+    .naver:hover{
+        background-color: #17b75e;
+    }
+    .google{
+        border: 1px solid #90a9fc;
+        background-color: #90a9fc;
+    }
+    .google:hover{
+        background-color: #7d93db;
+    }
+    .github{
+        border: 1px solid #1f883d;
+        background-color: #1f883d;
+    }
+    .github:hover{
+        background-color: #1b7535;
+    }
 </style>
 <script type="text/javascript" src="/js/memberregist.js"></script>
 </head>
@@ -41,7 +77,10 @@
             
             <div class="btn-group">
                 <div class="right-align">
-                    <button type="button" id="btn-login">로그인</button>
+                    <a class="naver login" href="/oauth2/authorization/naver" style="color: white;">NAVER <span style="font-size: 12px;">로그인</span></a>
+                    <a class="github login" href="/oauth2/authorization/github" style="color: white;">Github <span style="font-size: 12px;">로그인</span></a>
+                    <a class="google login" href="/oauth2/authorization/google" style="color: white;">Google <span style="font-size: 12px;">로그인</span></a>
+                    <button class="login" type="button" id="btn-login">로그인</button>
                 </div>
             </div>
         </div>

@@ -9,8 +9,15 @@ public class MemberVO {
 	private String delYn;
 	private String salt;
 	private String adminYn;
+	private String provider;
 	
 	
+	public String getProvider() {
+		return provider;
+	}
+	public void setProvider(String provider) {
+		this.provider = provider;
+	}
 	public String getAdminYn() {
 		return adminYn;
 	}
