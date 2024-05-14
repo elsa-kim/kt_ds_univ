@@ -1,10 +1,25 @@
 /**
  * props: {title:"", color:"", onClick:function(){}}
  */
-export function Section({ title, color, onClick }) {
+export function Section({
+  title,
+  color,
+  onClick,
+  backgroundColor = "#ccc",
+  fontSize,
+}) {
+  // App Component가 관리하는 state가 변경되어
+  // App Component가 재실행이 되고
+  // App Component 하위컴포넌트인 Section Component도 재실행 된다.
+  console.log("Run Section");
+  console.log("Title", title);
+  console.log("color", color);
+  console.log("onClick", onClick);
+
   const sectionStyle = {
-    backgroundColor: "#ccc",
+    backgroundColor,
     color,
+    fontSize,
   };
 
   /**
@@ -14,8 +29,10 @@ export function Section({ title, color, onClick }) {
     2. Attribute의 값이 변수/상수/객체/함수 등 이라면 {변수/상수/객체/함수}로 작성한다.
    */
   return (
-    <section style={sectionStyle} onClick={onClick}>
-      This is {title} Component.
-    </section>
+    <>
+      <section style={sectionStyle} onClick={onClick}>
+        This is {title} Component.
+      </section>
+    </>
   );
 }
