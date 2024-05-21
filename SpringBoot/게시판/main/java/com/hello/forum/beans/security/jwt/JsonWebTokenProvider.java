@@ -77,7 +77,6 @@ public class JsonWebTokenProvider {
 //							.getPayload();
 		
 		Jws<Claims> jwsClaims = Jwts.parser()
-				.requireIssuer(this.issuer)
 				.setSigningKey(key)
 				.build()
 				.parseClaimsJws(token);

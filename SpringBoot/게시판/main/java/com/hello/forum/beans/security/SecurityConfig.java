@@ -156,6 +156,24 @@ public class SecurityConfig {
 		http.csrf(csrf -> csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/auth/token")));
 		
 		http.addFilterAfter(this.jwtAuthenticationFilter, BasicAuthenticationFilter.class);
+		// react 요청 허용
+		http.cors(cors -> {
+			// CORS 설정
+			CorsConfigurationSource source = (request) -> {
+				CorsConfiguration config = new CorsConfiguration();
+				
+				// CORS 요청을 허용할 주소
+				config.setAllowedOrigins(List.of("http://localhost:3000"));
+				
+				// CORS 요청을 허용할 HttpMethod
+				config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+				config.setAllowedHeaders(List.of("*"));
+				
+				return config;
+			};
+			
+			cors.configurationSource(source);
+		});
 		
 		return http.build();
 	}
