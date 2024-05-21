@@ -153,7 +153,7 @@ public class SecurityConfig {
 		// HTTP POST, PUT, DELETE 등은 정상 동작하지 않는다.
 //		http.csrf(csrf->csrf.disable());
 		// /auth/token URL에서는 CSRF 검사를 하지 않음
-		http.csrf(csrf -> csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/auth/token")));
+		http.csrf(csrf -> csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/auth/token"), AntPathRequestMatcher.antMatcher("/api/**")));
 		
 		http.addFilterAfter(this.jwtAuthenticationFilter, BasicAuthenticationFilter.class);
 		// react 요청 허용

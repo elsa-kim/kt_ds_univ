@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-export default function Header({ token, setToken }) {
+export default function Header({ token, setToken, setUser, user }) {
   const emailRef = useRef();
   const passwordRef = useRef();
 
@@ -10,8 +10,22 @@ export default function Header({ token, setToken }) {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
       setToken(storedToken);
+      const getUser = async () => {
+        const userResponse = await fetch(
+          "http://localhost:8080/api/v1/member",
+          {
+            method: "GET",
+            headers: { Authorization: token },
+          }
+        );
+
+        const userJson = await userResponse.json();
+        console.log(userJson);
+        setUser(userJson.body);
+      };
+      getUser();
     }
-  }, [setToken]);
+  }, [setToken, token, setUser]);
 
   const onLoginClickHandler = async () => {
     const email = emailRef.current.value;
@@ -35,7 +49,12 @@ export default function Header({ token, setToken }) {
     });
 
     const json = await response.json();
-    setToken(json.token);
+    if (json.message) {
+      alert(json.message);
+      return;
+    } else if (json.token) {
+      setToken(json.token);
+    }
 
     // token의 값을 브라우저의 로컬스토리지에 작성한다.
     localStorage.setItem("token", json.token);
@@ -43,9 +62,22 @@ export default function Header({ token, setToken }) {
     // token의 값을 브라우저의 세션스토리지에 작성한다.
     // sessionStorage.setItem("token", json.token);
   };
+
+  const onLogoutClickHandler = () => {
+    localStorage.removeItem("token");
+    setToken(undefined);
+  };
+
   return (
-    <header onClick={onLoginClickHandler}>
-      {token && <div>로그인이 완료되었습니다.</div>}
+    <header>
+      {token && user && (
+        <div>
+          <div>
+            {user.name} <span>({user.email})</span>
+          </div>
+          <span onClick={onLogoutClickHandler}>로그아웃</span>
+        </div>
+      )}
       {!token && (
         <div>
           <label htmlFor="email">EMAIL</label>
