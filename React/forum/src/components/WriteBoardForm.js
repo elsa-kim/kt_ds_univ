@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { createBoard, modifyBoard } from "../http/http";
 
 export default function WriteBoardForm({
   setIsWriteMode,
@@ -25,21 +26,7 @@ export default function WriteBoardForm({
     const content = contentRef.current.value;
     const file = fileRef.current.files[0];
 
-    // 파일 업로드를 위해 formData 생성
-    const formData = new FormData(); // JavaScript built-in 객체
-    formData.append("subject", subject);
-    formData.append("content", content);
-    formData.append("file", file);
-
-    const response = await fetch("http://localhost:8080/api/v1/boards", {
-      method: "POST",
-      headers: {
-        Authorization: token,
-      },
-      body: formData,
-    });
-
-    const json = await response.json();
+    const json = await createBoard(token, subject, content, file);
     console.log(json);
 
     if (json.errors) {
@@ -56,21 +43,7 @@ export default function WriteBoardForm({
     const content = contentRef.current.value;
     const file = fileRef.current.files[0];
 
-    const formData = new FormData();
-    formData.append("subject", subject);
-    formData.append("content", content);
-    formData.append("file", file);
-    const response = await fetch(
-      `http://localhost:8080/api/v1/boards/${board.id}`,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: token,
-        },
-        body: formData,
-      }
-    );
-    const json = await response.json();
+    const json = await modifyBoard(board, token, subject, content, file);
     console.log(json);
     if (json.errors) {
       json.errors.forEach((error) => {
@@ -90,7 +63,7 @@ export default function WriteBoardForm({
           type="text"
           id="subject"
           ref={subjectRef}
-          defaultValue={board.subject}
+          defaultValue={!create ? board.subject : ""}
         />
       </div>
       <div>
@@ -103,7 +76,7 @@ export default function WriteBoardForm({
         <textarea
           id="content"
           ref={contentRef}
-          defaultValue={!create && board.content}
+          defaultValue={!create ? board.content : ""}
         ></textarea>
       </div>
       <div className="button-area right-align">

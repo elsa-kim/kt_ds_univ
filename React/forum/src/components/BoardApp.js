@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import BoardView from "./BoardView";
 import WriteBoardForm from "./WriteBoardForm";
+import { getBoards } from "../http/http";
+import { useFetch } from "../hooks/useFetch";
+
+let pageNo = 0;
 
 export default function BoardApp({ token, user }) {
-  const [boards, setBoards] = useState([]);
   const [selectedBoardId, setSelectedBoardId] = useState();
   const [isWriteMode, setIsWriteMode] = useState(false);
   const [isModifyMode, setIsModifyMode] = useState(false);
@@ -15,61 +18,64 @@ export default function BoardApp({ token, user }) {
     setSelectedBoardId(rowId);
   };
 
+  const onLoadMoreClickHandler = async () => {
+    const json = await getBoards({ token, pageNo: ++pageNo });
+    setData((prev) => ({
+      ...prev,
+      next: json.next,
+      pages: json.pages,
+      errors: json.errors,
+      count: json.count,
+      body: [...prev.body, ...json.body],
+    }));
+  };
+
   const onWriteModeClickHandler = () => {
     setIsWriteMode(true);
   };
 
-  useEffect(() => {
-    // 게시글 불러오기
-    const loadBoards = async () => {
-      if (!token) {
-        setBoards([]);
-        return;
-      }
-      const response = await fetch("http://localhost:8080/api/v1/boards", {
-        method: "GET",
-        // get방식은 body없고, json 보낼거없음 => header 사용이유 : 인증
-        headers: {
-          Authorization: token,
-        },
-      });
-
-      const json = await response.json();
-      console.log(json);
-
-      setBoards(json.body);
-    };
-    loadBoards();
+  const getFetchBoards = useCallback(getBoards, []);
+  const fetchParam = useMemo(() => {
+    return { token, needReload };
   }, [token, needReload]);
+
+  // const [boards, setBoards] = useState([]);
+  const { data, setData } = useFetch(undefined, getFetchBoards, fetchParam);
+  const { count, pages, next } = data || {};
+  const { body: boards } = data || {};
 
   return (
     <>
       {token && !isSelect && !isWriteMode && (
-        <table>
-          <thead>
-            <tr>
-              <th>번호</th>
-              <th>제목</th>
-              <th>작성자</th>
-              <th>조회수</th>
-              <th>작성일</th>
-            </tr>
-          </thead>
-          <tbody>
-            {boards.map((boardItem) => (
-              <tr
-                key={boardItem.id}
-                onClick={() => onRowClickHandler(boardItem.id)}
-              >
-                <td>{boardItem.id}</td>
-                <td>{boardItem.subject}</td>
-                <td>{boardItem.memberVO.name}</td>
-                <td>{boardItem.viewCnt}</td>
-                <td>{boardItem.crtDt}</td>
+        <>
+          <div>총 {count}개의 게시글이 검색되었습니다.</div>
+          <table>
+            <thead>
+              <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>조회수</th>
+                <th>작성일</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {boards &&
+                boards.map((boardItem) => (
+                  <tr
+                    key={boardItem.id}
+                    onClick={() => onRowClickHandler(boardItem.id)}
+                  >
+                    <td>{boardItem.id}</td>
+                    <td>{boardItem.subject}</td>
+                    <td>{boardItem.memberVO.name}</td>
+                    <td>{boardItem.viewCnt}</td>
+                    <td>{boardItem.crtDt}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </>
       )}
       {token && isSelect && !isWriteMode && (
         <BoardView
@@ -94,6 +100,7 @@ export default function BoardApp({ token, user }) {
       {!token && <div>로그인이 필요합니다.</div>}
       {token && !isWriteMode && !isModifyMode && (
         <div className="button-area right-align">
+          {next && <button onClick={onLoadMoreClickHandler}>더보기</button>}
           <button onClick={onWriteModeClickHandler}>게시글 등록</button>
         </div>
       )}

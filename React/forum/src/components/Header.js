@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
+import { login } from "../http/http";
 
-export default function Header({ token, setToken, setUser, user }) {
+export default function Header({ token, setToken, user }) {
   const emailRef = useRef();
   const passwordRef = useRef();
 
@@ -10,22 +11,8 @@ export default function Header({ token, setToken, setUser, user }) {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
       setToken(storedToken);
-      const getUser = async () => {
-        const userResponse = await fetch(
-          "http://localhost:8080/api/v1/member",
-          {
-            method: "GET",
-            headers: { Authorization: token },
-          }
-        );
-
-        const userJson = await userResponse.json();
-        console.log(userJson);
-        setUser(userJson.body);
-      };
-      getUser();
     }
-  }, [setToken, token, setUser]);
+  }, [setToken]);
 
   const onLoginClickHandler = async () => {
     const email = emailRef.current.value;
@@ -42,13 +29,7 @@ export default function Header({ token, setToken, setUser, user }) {
       return;
     }
 
-    const response = await fetch("http://localhost:8080/auth/token", {
-      method: "POST",
-      body: JSON.stringify({ email, password }),
-      headers: { "Content-Type": "application/json" },
-    });
-
-    const json = await response.json();
+    const json = await login(email, password);
     if (json.message) {
       alert(json.message);
       return;

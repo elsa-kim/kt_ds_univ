@@ -1,14 +1,31 @@
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import Header from "./components/Header";
 import BoardApp from "./components/BoardApp";
+import { loadMyData } from "./http/http";
+import { useFetch } from "./hooks/useFetch";
+// import { useFetch } from "./hooks/useFetch";
 
 export default function App() {
   const [token, setToken] = useState();
-  const [user, setUser] = useState();
+  const fetchLoadMyData = useCallback(() => {
+    if (token) {
+      return loadMyData;
+    } else {
+      return () => {
+        return undefined;
+      };
+    }
+  }, [token]);
+  const fetchToken = useMemo(() => {
+    return { token };
+  }, [token]);
+
+  const { data } = useFetch(undefined, fetchLoadMyData(), fetchToken);
+  const { body: user } = data || {};
 
   return (
     <div className="main-container">
-      <Header token={token} setToken={setToken} setUser={setUser} user={user} />
+      <Header token={token} setToken={setToken} user={user} />
       <main>
         <BoardApp token={token} user={user} />
       </main>
