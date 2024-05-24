@@ -1,6 +1,7 @@
-import TodoApp from "./components/TodoApp";
+// import TodoApp from "./components/todo/TodoApp.js";
+import RouterAppProvider from "./routers/router.js";
 // import ReduxProvider from "./stores/redux/store";
-import ToolkitProvider from "./stores/toolkit/store";
+// import ToolkitProvider from "./stores/toolkit/store.js";
 
 function App() {
   console.log("Run App");
@@ -10,11 +11,14 @@ function App() {
   //     <TodoApp />
   //   </ReduxProvider>
   // );
-  return (
-    <ToolkitProvider>
-      <TodoApp />
-    </ToolkitProvider>
-  );
+
+  // return (
+  //   <ToolkitProvider>
+  //     <TodoApp />
+  //   </ToolkitProvider>
+  // );
+
+  return <RouterAppProvider />;
 }
 
 export default App;

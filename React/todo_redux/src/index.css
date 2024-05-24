@@ -133,8 +133,10 @@ a {
   text-decoration: none;
 }
 
-a:active {
-  color: #666;
+a.active {
+  color: #c02;
+  text-decoration: underline;
+  font-weight: bold;
 }
 
 a:hover {
